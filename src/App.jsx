@@ -14,6 +14,24 @@ import Programs from './pages/public/Programs'
 import News from './pages/public/News'
 import Hymns from './pages/public/Hymns'
 import ApplyAsWorker from './pages/public/ApplyAsWorker'
+import PageNotFound from './pages/public/PageNotFound'
+import SideNav from './components/admin/layout/SideNav'
+import TopNav from './components/admin/layout/TopNav'
+
+// Auth
+import Register from './pages/admin/auth/Register'
+import Login from './pages/admin/auth/Login'
+
+// Admin Dashborad
+import PostHymn from './pages/admin/pages/PostHymn'
+import PostNews from './pages/admin/pages/PostNews'
+import PostProgram from './pages/admin/pages/PostProgram'
+import PublishedHymn from './pages/admin/pages/PublishedHymn'
+import PublishedNews from './pages/admin/pages/PublishedNews'
+import PublishedProgram from './pages/admin/pages/PublishedProgram'
+import Applicant from './pages/admin/pages/Applicant'
+import Inbox from './pages/admin/pages/Inbox'
+import Profile from './pages/admin/pages/Profile'
 
 function App() {
 
@@ -51,6 +69,56 @@ function App() {
         <Route path='/news' element={<News />} />
         <Route path='/hymns' element={<Hymns />} />
         <Route path='/apply-as-worker' element={<ApplyAsWorker />} />
+        <Route path='/auth/register' element={<Register />} />
+        <Route path='/auth/login' element={<Login />} />
+
+        <Route
+          path="/admin/*"
+          element={
+            <div className="layout">
+              <SideNav
+                isExpanded={isExpanded}
+                setIsExpanded={setIsExpanded}
+                mobileOpen={mobileOpen}
+                setMobileOpen={setMobileOpen}
+              />
+              <div
+                className={`main-content ${isExpanded ? '' : 'collapsed'} ${mobileOpen ? 'shifted' : ''
+                  }`}
+                style={{ transition: 'margin-left 300ms ease' }}
+              >
+                <TopNav
+                  isExpanded={isExpanded}
+                  setIsExpanded={setIsExpanded}
+                  mobileOpen={mobileOpen}
+                  setMobileOpen={setMobileOpen}
+                />
+                <div className="admin-content">
+                  <Routes>
+                    {/* <Route path="" element={<OverView />} /> */}
+                    <Route path="upload/hymn" element={<PostHymn />} />
+                    <Route path="upload/news" element={<PostNews />} />
+                    <Route path="upload/program" element={<PostProgram />} />
+                    <Route path="published/hymns" element={<PublishedHymn />} />
+                    <Route path="published/news" element={<PublishedNews />} />
+                    <Route path="published/programs" element={<PublishedProgram />} />
+                    <Route path="applications" element={<Applicant />} />
+                    <Route path="inbox" element={<Inbox />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="*" element={<PageNotFound />} /> 
+                  </Routes>
+                </div>
+              </div>
+              <div
+                className={`mobile-overlay ${mobileOpen ? 'visible' : ''}`}
+                onClick={() => setMobileOpen(false)}
+                aria-hidden={!mobileOpen}
+              />
+            </div>
+          }
+        />
+
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
 
       {!isAdminRoute && <Footer />}

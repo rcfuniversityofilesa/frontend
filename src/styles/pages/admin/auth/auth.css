@@ -1,0 +1,108 @@
+.authPage {
+    height: 100vh;
+    width: 100vw;
+    background: 
+        url("../../../../../public/faith-background.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.authContainer {
+    width: 600px;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.096);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.authLogo {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+}
+
+.authTitle {
+    color: var(--nav-text-color);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.authForm div{
+    background: var(--bg-linear);
+}
+
+.authForm div div{
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    text-align: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.authForm div div .authInput {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid var(--muted);
+    font-size: 15px;
+    font-family: sans-serif;
+    border-radius: 2px;
+}
+
+.authForm div .inputIcon {
+    width: 10%;
+    background-color: none;
+    font-size: 1.2rem;
+}
+
+.authErr {
+    color: #dc2626 !important;
+    font-size: 13px;
+    font-style: italic;
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 1px;
+}
+
+.authForm div .inputIcon:hover {
+    transform: scale(1.2);
+}
+
+.links{
+    text-decoration: none;
+    color: var(--nav-text-color);
+    font-weight: 700;
+}
+
+.links:hover{
+    text-decoration: underline;
+    color: var(--nav-text-hover);
+}
+
+.authForm p{
+    color: var(--nav-text-color);
+}
+
+@media (max-width: 768px) {
+    .authContainer {
+        width: 85%;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .authContainer {
+        width: 90%;
+        padding: 20px;
+    }
+}
