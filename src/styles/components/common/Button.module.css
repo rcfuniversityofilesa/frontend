@@ -1,0 +1,33 @@
+.myBtn {
+    padding: 10px 20px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #ffe600, #e6c200);
+    box-shadow: 2px 4px 6px #f0ca00, -1px -1px 6px #ffe400;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--nav-text-color);
+}
+
+.myBtn::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #007BFF, #FFD700);
+    transition: width 0.3s ease;
+}
+
+.myBtn:hover::after {
+    width: 100%;
+    margin-top: 70px !important;
+}
+
+.myBtn:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(145deg, #e6c200, #ffe600);
+}

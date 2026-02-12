@@ -1,33 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import { Route, Routes, useLocation } from 'react-router-dom'
+
+// Components
+import Loader from './components/ui/Loader'
+import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
+
+// Pages
+import Home from './pages/public/Home'
+import Contactus from './pages/public/ContactUs'
+import Programs from './pages/public/Programs'
+import News from './pages/public/News'
+import Hymns from './pages/public/Hymns'
+import ApplyAsWorker from './pages/public/ApplyAsWorker'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [loading, setLoading] = useState(true)
+  const [isExpanded, setIsExpanded] = useState(true)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/auth')
+
+    useEffect(() => {
+    if (isAdminRoute) {
+      setLoading(false)
+      return
+    }
+    const timer = setTimeout(() => setLoading(false), 1500)
+    return () => clearTimeout(timer)
+  }, [location.pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+  }, [mobileOpen])
+
+  if (loading && !isAdminRoute) return <Loader fullscreen />
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {!isAdminRoute && <Navbar />}
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+        {/* <Route path='/aboutus' element={<AboutUs />} /> */}
+        {/* <Route path='/gallery' element={<Gallery />} /> */}
+        <Route path='/contactus' element={<Contactus />} />
+        <Route path='/events' element={<Programs />} />
+        <Route path='/news' element={<News />} />
+        <Route path='/hymns' element={<Hymns />} />
+        <Route path='/apply-as-worker' element={<ApplyAsWorker />} />
+      </Routes>
+
+      {!isAdminRoute && <Footer />}
     </>
   )
 }
