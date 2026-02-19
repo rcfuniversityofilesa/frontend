@@ -19,7 +19,7 @@ const [email, setEmail] = useState('');
       const token = localStorage.getItem('token');
 
       const res = await axios.get(
-        'http://localhost:9000/api/admin/profile/me',
+        'https://backend-04sy.onrender.com/api/admin/profile/me',
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

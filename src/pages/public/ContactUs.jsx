@@ -34,7 +34,7 @@ export default function Contactus() {
       submittedAt: new Date().toLocaleString()
     }
 
-    const res = await axios.post('http://localhost:9000/api/user/message', payload)
+    const res = await axios.post('https://backend-04sy.onrender.com/api/user/message', payload)
 
     // console.log(res.data?.message)
     toast.success(res.data?.message)

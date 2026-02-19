@@ -54,7 +54,7 @@ export default function PostProgram() {
                 })
 
                 await axios.post(
-                    'http://localhost:9000/api/admin/post/program',
+                    'https://backend-04sy.onrender.com/api/admin/post/program',
                     formData,
                     {
                         responseType: "blob",

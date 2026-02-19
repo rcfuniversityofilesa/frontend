@@ -48,7 +48,7 @@ export default function PostNews() {
                 })
 
                 await axios.post(
-                    'http://localhost:9000/api/admin/post/news',
+                    'https://backend-04sy.onrender.com/api/admin/post/news',
                     formData,
                     {
                         responseType: "blob",

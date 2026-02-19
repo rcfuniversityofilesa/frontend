@@ -32,7 +32,7 @@ export default function Login() {
         onSubmit: async (values) => {
             setLoading(true)
             try {
-                const res = await axios.post('http://localhost:9000/api/admin/login', values)
+                const res = await axios.post('https://backend-04sy.onrender.com/api/admin/login', values)
 
                 // console.log(res.data.message + ' ,' + ' token: ' + res.data.token)
                 localStorage.setItem('token', res.data.token)

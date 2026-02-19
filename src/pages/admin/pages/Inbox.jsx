@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Formik, Form, Field } from 'formik'
 import toast, { Toaster } from 'react-hot-toast'
 
-const API_BASE = 'http://localhost:9000/api'
+const API_BASE = 'https://backend-04sy.onrender.com/api'
 
 export default function Inbox() {
   const [messages, setMessages] = useState([])

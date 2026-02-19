@@ -17,7 +17,7 @@ export default function Profile() {
         const token = localStorage.getItem('token')
         try {
             const res = await axios.get(
-                'http://localhost:9000/api/admin/profile/me',
+                'https://backend-04sy.onrender.com/api/admin/profile/me',
                 { headers: { Authorization: `Bearer ${token}` } }
             )
 
@@ -88,7 +88,7 @@ export default function Profile() {
                 const adminId = admin._id
 
                 await axios.put(
-                    `http://localhost:9000/api/admin/update/admin/${adminId}`,
+                    `https://backend-04sy.onrender.com/api/admin/update/admin/${adminId}`,
                     formData,
                     {
                         headers: {

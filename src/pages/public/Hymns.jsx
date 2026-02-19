@@ -14,7 +14,7 @@ export default function Hymns() {
     const fetchHymns = async () => {
         setLoading(true)
         try {
-            const res = await axios.get('http://localhost:9000/api/admin/published/hymns')
+            const res = await axios.get('https://backend-04sy.onrender.com/api/admin/published/hymns')
             const data = res.data?.data || res.data || []
 
             const normalized = (data || [])

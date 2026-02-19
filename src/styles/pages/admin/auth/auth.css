@@ -2,7 +2,7 @@
     height: 100vh;
     width: 100vw;
     background: 
-        url("../../../../../public/faith-background.jpg");
+        url("/faith-background.jpg");
     background-size: cover;
     background-position: center;
     display: flex;

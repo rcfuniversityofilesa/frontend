@@ -17,7 +17,7 @@ const [hymns, setHymns] = useState([])
 
   const fetchHymns = async () => {
     try {
-      const res = await axios.get('http://localhost:9000/api/admin/published/hymns')
+      const res = await axios.get('https://backend-04sy.onrender.com/api/admin/published/hymns')
       setHymns(res.data?.data || [])
     } catch (err) {
       toast.error(err.response?.data?.message || err.message)
@@ -49,7 +49,7 @@ const [hymns, setHymns] = useState([])
               try {
                 setLoading(true)
                 const res = await axios.delete(
-                  `http://localhost:9000/api/admin/delete/hymn/${id}`
+                  `https://backend-04sy.onrender.com/api/admin/delete/hymn/${id}`
                 )
                 toast.success(res.data?.message || 'Hymn deleted')
                 fetchHymns()
@@ -74,7 +74,7 @@ const [hymns, setHymns] = useState([])
       const id = selected._id
 
       const res = await axios.put(
-        `http://localhost:9000/api/admin/update/hymn/${id}`,
+        `https://backend-04sy.onrender.com/api/admin/update/hymn/${id}`,
         values
       )
 

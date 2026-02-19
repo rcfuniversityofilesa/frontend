@@ -15,7 +15,7 @@ const [formData, setFormData] = useState([])
     const fetchApplicant = async () => {
         const token = localStorage.getItem('token')
         try {
-            const res = await axios.get('http://localhost:9000/api/user/apply/workforce/getdetails', {
+            const res = await axios.get('https://backend-04sy.onrender.com/api/user/apply/workforce/getdetails', {
                 headers: { Authorization: `Bearer ${token}` }
             })
             setFormData(res.data?.data || [])
@@ -43,7 +43,7 @@ const [formData, setFormData] = useState([])
             toast.dismiss(t.id)
             try {
               setLoading(true)
-              const res = await axios.delete(`http://localhost:9000/api/admin/delete/appliedWorker/${id}`)
+              const res = await axios.delete(`https://backend-04sy.onrender.com/api/admin/delete/appliedWorker/${id}`)
               toast.success(res.data?.message || res.message)
               fetchApplicant()
             } catch (err) {

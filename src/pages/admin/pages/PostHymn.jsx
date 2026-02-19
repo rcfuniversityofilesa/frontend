@@ -33,7 +33,7 @@ export default function PostHymn() {
       setLoading(true)
       try {
         await axios.post(
-          'http://localhost:9000/api/admin/post/hymn',
+          'https://backend-04sy.onrender.com/api/admin/post/hymn',
           values
         )
 

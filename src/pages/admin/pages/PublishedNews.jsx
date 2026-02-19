@@ -16,7 +16,7 @@ export default function PublishedNews() {
 
   const fetchPrograms = async () => {
     try {
-      const res = await axios.get('http://localhost:9000/api/admin/published/news')
+      const res = await axios.get('https://backend-04sy.onrender.com/api/admin/published/news')
       setNews(res.data?.data || [])
     } catch (err) {
       toast.error(err.response?.data?.message || err.message)
@@ -40,7 +40,7 @@ export default function PublishedNews() {
             toast.dismiss(t.id)
             try {
               setLoading(true)
-              const res = await axios.delete(`http://localhost:9000/api/admin/delete/news/${id}`)
+              const res = await axios.delete(`https://backend-04sy.onrender.com/api/admin/delete/news/${id}`)
               toast.success(res.data?.message || res.message)
               fetchPrograms()
             } catch (err) {
@@ -74,7 +74,7 @@ export default function PublishedNews() {
       Object.keys(values).forEach(key => {
         if (values[key] !== undefined && values[key] !== null) fd.append(key, values[key])
       })
-      const res = await axios.put(`http://localhost:9000/api/admin/update/news/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const res = await axios.put(`https://backend-04sy.onrender.com/api/admin/update/news/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
       toast.success(res.data?.message || res.message)
       setEditMode(false)
       setSelected(null)

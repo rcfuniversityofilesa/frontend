@@ -65,7 +65,7 @@ export default function ApplyAsWorker() {
         })
 
         const res = await axios.post(
-          'http://localhost:9000/api/user/apply/workforce',
+          'https://backend-04sy.onrender.com/api/user/apply/workforce',
           formData,
           {
             responseType: "blob",

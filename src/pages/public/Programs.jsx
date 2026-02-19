@@ -11,7 +11,7 @@ export default function Programs() {
     try {
       setLoading(true)
       const res = await axios.get(
-        'http://localhost:9000/api/admin/published/programmes'
+        'https://backend-04sy.onrender.com/api/admin/published/programmes'
       )
       setPrograms(res.data?.data || [])
     } catch (err) {

@@ -11,7 +11,7 @@ export default function News() {
     try {
       setLoading(true)
       const res = await axios.get(
-        'http://localhost:9000/api/admin/published/news'
+        'https://backend-04sy.onrender.com/api/admin/published/news'
       )
       setNews(res.data?.data || [])
     } catch (err) {

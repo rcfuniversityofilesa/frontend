@@ -12,6 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import logo from '../../../assets/logo.png'
 import Button from '../../../components/common/Button';
+import { FaPersonRifle } from 'react-icons/fa6';
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
@@ -27,13 +28,14 @@ export default function Register() {
             middleName: '',
             lastName: '',
             email: '',
+            role: '',
             password: '',
             confirmPassword: ''
         },
         onSubmit: async (values, { resetForm }) => {
 
             try {
-                const res = await axios.post('http://localhost:9000/api/admin/reg', values);
+                const res = await axios.post('https://backend-04sy.onrender.com/api/admin/reg', values);
 
                 // console.log(res.data)
                 toast.success(`${res.data.message}. Check your email to verify your account.`)
@@ -50,6 +52,7 @@ export default function Register() {
             middleName: yup.string().required('Middle Name is required'),
             lastName: yup.string().required('Last Name is required'),
             email: yup.string().email('Invalid email format').required('Email is required'),
+            role: yup.string().required('Role is required'),
             password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
             confirmPassword: yup.string().required('Confirm password is required').oneOf([yup.ref('password'), null], 'Passwords must match')
         })
@@ -118,6 +121,16 @@ export default function Register() {
                         </div>
                         <p className="authErr">{formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : ''} </p>
                     </div>
+                    {/* <div>
+                        <div>
+                            <FaPersonRifle className='inputIcon' />
+                            <select name="role" onBlur={formik.handleBlur} onChange={formik.handleChange} className="authInput">
+                                <option value="Media">Media Cordinator</option>
+                                <option value="WorkersInTraining">Worker's In Training Coordinator</option>
+                            </select>
+                        </div>
+                        <p className="authErr">{formik.touched.role && formik.errors.role ? <small>{formik.errors.role}</small> : ''} </p>
+                    </div> */}
                     <div>
                         <div>
                             <FaLock className='inputIcon' />
