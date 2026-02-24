@@ -7,6 +7,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
 import Button from '../../../components/common/Button'
+import { FaSpinner } from 'react-icons/fa'
 
 export default function PostProgram() {
     const [preview, setPreview] = React.useState(null)
@@ -39,7 +40,7 @@ export default function PostProgram() {
             programLocation: yup.string().required('Program location is required'),
         }),
 
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             // console.log(values)
             setLoading(true)
             try {
@@ -66,12 +67,12 @@ export default function PostProgram() {
 
                 toast.success('Program Published Successfully')
 
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                resetForm()
 
             } catch (err) {
                 toast.error(err.response?.data?.message || err.message)
+            } finally{
+                setLoading(false)
             }
         }
     })
@@ -243,7 +244,7 @@ export default function PostProgram() {
 
                 </div>
 
-                <Button type="submit" text={loading ? 'Publishing...' : 'Publish Program'} />
+                <Button type="submit" text={loading ? (<span className="btnSpinner"><FaSpinner className="spin" /></span>) : 'Publish Program'} />
 
             </form>
         </div>

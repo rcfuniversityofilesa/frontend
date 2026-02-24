@@ -1,22 +1,27 @@
 .authPage {
     height: 100vh;
     width: 100vw;
-    background: 
+    background:
         url("/faith-background.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* ===== Auth Container ===== */
 .authContainer {
-    width: 600px;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.096);
-    backdrop-filter: blur(12px);
-    border-radius: 12px;
-    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 3rem 2.5rem;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.6s ease-out;
 }
 
 .authLogo {
@@ -38,11 +43,11 @@
     gap: 15px;
 }
 
-.authForm div{
+.authForm div {
     background: var(--bg-linear);
 }
 
-.authForm div div{
+.authForm div div {
     display: flex;
     justify-content: center;
     border-radius: 8px;
@@ -78,19 +83,42 @@
     transform: scale(1.2);
 }
 
-.links{
+.links {
     text-decoration: none;
     color: var(--nav-text-color);
     font-weight: 700;
 }
 
-.links:hover{
+.links:hover {
     text-decoration: underline;
     color: var(--nav-text-hover);
 }
 
-.authForm p{
+.authForm p {
     color: var(--nav-text-color);
+}
+.roleValues{
+    width: 470px;
+}
+
+.btnSpinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 768px) {

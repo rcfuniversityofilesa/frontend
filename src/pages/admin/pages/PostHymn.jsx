@@ -7,6 +7,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
 import Button from '../../../components/common/Button'
+import { FaSpinner } from 'react-icons/fa'
 
 export default function PostHymn() {
   const [stanzaCount, setStanzaCount] = useState(0)
@@ -29,7 +30,7 @@ export default function PostHymn() {
       chors: yup.string()
     }),
 
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       setLoading(true)
       try {
         await axios.post(
@@ -39,11 +40,12 @@ export default function PostHymn() {
 
         toast.success('Hymn saved successfully')
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+        resetForm()
+
       } catch (err) {
         toast.error(err.response?.data?.message || err.message)
+      } finally{
+        setLoading(false)
       }
     }
   })
@@ -132,7 +134,7 @@ export default function PostHymn() {
           />
         </div>
 
-        <Button type="submit" text={loading ? 'Publishing...' : 'Publish Hymn'} />
+        <Button type="submit" text={loading ? (<span className="btnSpinner"><FaSpinner className="spin" /></span>) : 'Publish Hymn'} />
       </form>
     </div>
   )

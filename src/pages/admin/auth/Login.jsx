@@ -3,7 +3,7 @@ import '../../../styles/pages/admin/auth/auth.css'
 
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
@@ -19,7 +19,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
 
     React.useEffect(() => {
-        AOS.init({ duration: 800 });
+        AOS.init({ duration: 3000 });
     }, []);
 
     const navigate = useNavigate()
@@ -42,6 +42,8 @@ export default function Login() {
             } catch (err) {
                 // console.log(err)
                 toast.error(`Error loggining in: ${err.response?.data?.message || err.message}`)
+            } finally{
+                setLoading(false)
             }
         },
         validationSchema: yup.object({
@@ -57,7 +59,7 @@ export default function Login() {
                 <img src={logo} alt="logo" className="authLogo" />
                 <h2 className="authTitle">Admin Signin</h2>
 
-                <form className="authForm" onSubmit={formik.handleSubmit}>
+                <form className="authForm" onSubmit={loading ? undefined : formik.handleSubmit}>
                     <div>
                         <div>
                             <FaEnvelope className='inputIcon' />
@@ -92,9 +94,9 @@ export default function Login() {
 
                     {/* <p><Link className='links' to={'/auth/forget-password'}>Forget Password?</Link></p> */}
 
-                    <Button type='submit' text={loading ? 'Logging...' : 'Login'} />
+                    <Button type="submit" text={loading ? (<span className="btnSpinner"><FaSpinner className="spin" /></span>) : "Login"} />
 
-                    <p>I don't have an account <Link className='links' to={'/auth/register'}>Register</Link></p>
+                    <p>I don't have an account <Link className='links' to={'/admin/auth/register'}>Register</Link></p>
                 </form>
             </div>
         </div>

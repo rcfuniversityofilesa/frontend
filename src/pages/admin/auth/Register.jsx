@@ -3,7 +3,7 @@ import '../../../styles/pages/admin/auth/auth.css'
 
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
@@ -12,14 +12,14 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import logo from '../../../assets/logo.png'
 import Button from '../../../components/common/Button';
-import { FaPersonRifle } from 'react-icons/fa6';
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [loader, setLoader] = useState(false)
 
     React.useEffect(() => {
-        AOS.init({ duration: 800 });
+        AOS.init({ duration: 3000 });
     }, []);
 
     const formik = useFormik({
@@ -33,9 +33,9 @@ export default function Register() {
             confirmPassword: ''
         },
         onSubmit: async (values, { resetForm }) => {
-
+            setLoader(true)
             try {
-                const res = await axios.post('https://backend-04sy.onrender.com/api/admin/reg', values);
+                const res = await axios.post('https://localhost:9000//api/admin/reg', values);
 
                 // console.log(res.data)
                 toast.success(`${res.data.message}. Check your email to verify your account.`)
@@ -44,6 +44,8 @@ export default function Register() {
             } catch (err) {
                 // console.log(err)
                 toast.error(`Error creating account: ${err.response?.data?.message || err.message}`);
+            } finally {
+                setLoader(false)
             }
 
         },
@@ -52,7 +54,7 @@ export default function Register() {
             middleName: yup.string().required('Middle Name is required'),
             lastName: yup.string().required('Last Name is required'),
             email: yup.string().email('Invalid email format').required('Email is required'),
-            role: yup.string().required('Role is required'),
+            role: yup.string().required('Role is required of you '),
             password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
             confirmPassword: yup.string().required('Confirm password is required').oneOf([yup.ref('password'), null], 'Passwords must match')
         })
@@ -65,7 +67,7 @@ export default function Register() {
                 <img src={logo} alt="logo" className="authLogo" />
                 <h2 className="authTitle">Admin Signup</h2>
 
-                <form className="authForm" onSubmit={formik.handleSubmit}>
+                <form className="authForm" onSubmit={loader ? undefined : formik.handleSubmit}>
                     <div>
                         <div>
                             <FaUser className='inputIcon' />
@@ -107,6 +109,7 @@ export default function Register() {
                         </div>
                         <p className="authErr">{formik.touched.lastName && formik.errors.lastName ? <small>{formik.errors.lastName}</small> : ''} </p>
                     </div>
+
                     <div>
                         <div>
                             <FaEnvelope className='inputIcon' />
@@ -121,16 +124,37 @@ export default function Register() {
                         </div>
                         <p className="authErr">{formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : ''} </p>
                     </div>
-                    {/* <div>
+
+                    <div>
                         <div>
-                            <FaPersonRifle className='inputIcon' />
-                            <select name="role" onBlur={formik.handleBlur} onChange={formik.handleChange} className="authInput">
-                                <option value="Media">Media Cordinator</option>
-                                <option value="WorkersInTraining">Worker's In Training Coordinator</option>
-                            </select>
+                            <FaUser className='inputIcon' />
+                            <div className='roleValues'>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="Media"
+                                        className="authInput"
+                                        checked={formik.values.role === "Media"}
+                                        onChange={formik.handleChange}
+                                    /> Media Coordinator
+                                </label>
+
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="WorkersInTraining"
+                                        className="authInput"
+                                        checked={formik.values.role === "WorkersInTraining"}
+                                        onChange={formik.handleChange}
+                                    /> WorkersInTraining
+                                </label>
+                            </div>
                         </div>
-                        <p className="authErr">{formik.touched.role && formik.errors.role ? <small>{formik.errors.role}</small> : ''} </p>
-                    </div> */}
+                            <p>{formik.touched.role && formik.errors.role ? <span style={{ color: 'red', fontSize: '10px' }}>{formik.errors.role}</span> : ''}</p>
+                    </div>
+
                     <div>
                         <div>
                             <FaLock className='inputIcon' />
@@ -166,8 +190,8 @@ export default function Register() {
                         <p className="authErr">{formik.touched.confirmPassword && formik.errors.confirmPassword ? <small>{formik.errors.confirmPassword}</small> : ''} </p>
                     </div>
 
-                    <Button type='submit' text='Create Account' />
-                    <p>Already has an account? <Link className='links' to={'/auth/login'}>Login</Link></p>
+                    <Button type="submit" text={loader ? (<span className="btnSpinner"><FaSpinner className="spin" /></span>) : "Create Account"} />
+                    <p>Already has an account? <Link className='links' to={'/admin/auth/login'}>Login</Link></p>
                 </form>
             </div>
         </div>

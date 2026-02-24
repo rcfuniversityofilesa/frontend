@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../../../styles/pages/admin/pages/Applicant.css'
+import '../../../styles/pages/admin/pages/Applicant.module.css'
 
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'

@@ -29,6 +29,7 @@ export default function Profile() {
                 middleName: user.middleName || '',
                 lastName: user.lastName || '',
                 email: user.email || '',
+                role: user.role || '',
                 gender: user.gender || '',
                 phoneNumber: user.phoneNumber || '',
                 inductionYear: user.inductionYear || '',
@@ -56,6 +57,7 @@ export default function Profile() {
             middleName: '',
             lastName: '',
             email: '',
+            role: '',
             gender: '',
             phoneNumber: '',
             passport: null,
@@ -69,6 +71,7 @@ export default function Profile() {
             middleName: yup.string().required('Middle name required'),
             lastName: yup.string().required('Last name required'),
             email: yup.string().email('Invalid email').required('Email required'),
+            role: yup.string().required('Role is required of you '),
             gender: yup.string().required('Gender required'),
             phoneNumber: yup.string().required('Phone number required'),
             inductionYear: yup.string().required('Year required'),
@@ -102,6 +105,8 @@ export default function Profile() {
                 fetchUser()
             } catch (err) {
                 toast.error(err.response?.data?.message || err.message)
+            } finally {
+                setLoading(false)
             }
         }
     })
@@ -229,9 +234,9 @@ export default function Profile() {
                             </label>
 
                         </div>
-                            <small className='err-gen'>
-                                {formik.touched.gender && formik.errors.gender ? formik.errors.gender : ''}
-                            </small>
+                        <small className='err-gen'>
+                            {formik.touched.gender && formik.errors.gender ? formik.errors.gender : ''}
+                        </small>
                     </div>
 
                     {/* Email and Phone */}
@@ -260,6 +265,37 @@ export default function Profile() {
                                 {formik.touched.phoneNumber && formik.errors.phoneNumber ? formik.errors.phoneNumber : ''}
                             </small>
                         </div>
+                    </div>
+
+                    {/* Role */}
+                    <div className='settings-profile-group'>
+                        <div className='settings-field-role'>
+                            <label className='role'>
+                                <input
+                                    type='radio'
+                                    name='role'
+                                    value='Media'
+                                    onChange={formik.handleChange}
+                                    checked={formik.values.role === 'Media'}
+                                />
+                                Media Coordinator
+                            </label>
+
+                            <label className='role'>
+                                <input
+                                    type='radio'
+                                    name='role'
+                                    value='WorkersInTraining'
+                                    onChange={formik.handleChange}
+                                    checked={formik.values.role === 'WorkersInTraining'}
+                                />
+                                Workers In Training
+                            </label>
+
+                        </div>
+                        <small className='err-gen'>
+                            {formik.touched.role && formik.errors.role ? formik.errors.role : ''}
+                        </small>
                     </div>
 
                     {/* Year and Position */}

@@ -1,16 +1,184 @@
-# React + Vite
+# RCF Frontend - React Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive React-based web application for Real Church Fellowship (RCF) that provides both public-facing pages and an administrative portal with role-based access control.
 
-Currently, two official plugins are available:
+## 📋 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+RCF Frontend is a full-featured web application built with React and Vite that serves two main purposes:
+1. **Public Portal** - Information and service pages for general users
+2. **Admin Portal** - Role-based administrative dashboard for content and worker management
 
-## React Compiler
+### Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Public Portal**: Browse hymns, news, programs, gallery, and apply for worker positions
+- **Admin Portal**: Manage applicants, conduct exams, publish content, and handle inbox communications
+- **Role-Based Access Control**: Different dashboards for Media and Workers in Training admin roles
+- **Responsive Design**: Bootstrap-based responsive UI across all pages
+- **Real-time Notifications**: Toast notifications for user feedback
+- **Form Validation**: Formik + Yup for robust form handling
+- **Animations**: Smooth animations using Framer Motion and AOS
 
-## Expanding the ESLint configuration
+## 🏗️ Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+├── components/
+│   ├── admin/
+│   │   └── layout/          # Admin sidebar navigation and top navigation
+│   ├── common/              # Reusable components (Button, Card, etc.)
+│   ├── layout/              # Public layout components (Navbar, Footer)
+│   └── ui/                  # UI utilities (Loader, etc.)
+├── pages/
+│   ├── admin/
+│   │   ├── auth/            # Login and Registration pages
+│   │   └── pages/           # Admin dashboard pages
+│   │       ├── Applicant.jsx
+│   │       ├── Inbox.jsx
+│   │       ├── OverView.jsx
+│   │       ├── PostHymn.jsx
+│   │       ├── PostNews.jsx
+│   │       ├── PostProgram.jsx
+│   │       ├── Profile.jsx
+│   │       ├── PublishedHymn.jsx
+│   │       ├── PublishedNews.jsx
+│   │       └── PublishedProgram.jsx
+│   └── public/              # Public-facing pages
+│       ├── Home.jsx
+│       ├── AboutUs.jsx
+│       ├── News.jsx
+│       ├── Hymns.jsx
+│       ├── Programs.jsx
+│       ├── Gallery.jsx
+│       ├── ContactUs.jsx
+│       ├── ApplyAsWorker.jsx
+│       └── PageNotFound.jsx
+└── styles/                  # Global and component-specific styles
+```
+
+## 🎯 Admin Portal Features
+
+### Role-Based Dashboards
+
+**Media Admin Role:**
+- Post News
+- Post Hymns
+- Post Programs
+- View Published Content
+- Inbox Management
+- Profile Settings
+
+**Workers in Training Admin Role:**
+- View Applicants
+- Review Interviewed Candidates
+- Exam Settings and Control
+- Exam Management (email, full name tracking)
+- Profile Settings
+
+### Shared Admin Features
+- Overview Dashboard
+- User Profile Management
+- Navigation via SideNav and TopNav
+
+## 🌐 Public Portal Pages
+
+- **Home** - Landing page with featured content
+- **News** - Browse and read news articles
+- **Hymns** - View hymn collection
+- **Programs** - Explore programs and events
+- **Gallery** - Image gallery showcase
+- **About Us** - Organization information
+- **Contact Us** - Get in touch with RCF
+- **Apply as Worker** - Application form for new workers
+- **Page Not Found** - 404 error page
+
+## 🛠️ Technology Stack
+
+### Frontend Framework & Build
+- **React 19.2** - Modern React with latest features
+- **Vite 7.3** - Ultra-fast frontend build tool
+- **React Router DOM 7.13** - Client-side routing
+
+### UI & Styling
+- **React Bootstrap 2.10** - Bootstrap component library
+- **CSS Modules** - Component-scoped styling
+- **Framer Motion 12.34** - Animation library
+- **AOS 2.3** - Animate on scroll library
+- **React Icons 5.5** - Icon library
+
+### Form & Validation
+- **Formik 2.4** - Form state management
+- **Yup 1.7** - Schema validation
+- **Axios 1.13** - HTTP client for API calls
+
+### Utilities
+- **React Hot Toast 2.6** - Toast notifications
+- **Classnames 2.5** - Dynamic class name management
+
+## 💻 Getting Started
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone [repository-url]
+cd frontend
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start development server
+```bash
+npm run dev
+```
+
+4. Build for production
+```bash
+npm run build
+```
+
+### Available Scripts
+
+- `npm run dev` - Start the development server (typically runs on http://localhost:5173)
+- `npm run build` - Build the project for production
+- `npm run preview` - Preview the production build locally
+- `npm run lint` - Run ESLint to check code quality
+
+## 🔐 Authentication
+
+The admin portal includes:
+- **Login Page** - Secure authentication for admins
+- **Register Page** - Admin registration (if enabled)
+- **Role-Based Access** - Automatic redirection based on admin role
+
+## 📱 Deployment
+
+The project includes a `vercel.json` configuration file for easy deployment to Vercel.
+
+### Deploy to Vercel
+```bash
+vercel
+```
+
+Or connect your Git repository to Vercel for automatic deployments on push.
+
+## 🎨 Styling Approach
+
+- CSS Modules for component-specific styles (`.module.css`)
+- Global styles for shared utilities
+- Bootstrap for responsive grid and components
+- Consistent color scheme and spacing throughout
+
+## 📞 Support
+
+For questions or issues, please contact RCF or submit an issue in the repository.
+
+---
+
+**Last Updated:** February 2026
