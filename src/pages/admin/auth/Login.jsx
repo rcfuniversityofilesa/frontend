@@ -12,17 +12,19 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import logo from '../../../assets/logo.png'
 import Button from '../../../components/common/Button';
+import { useAuth } from '../../../context/AuthContext'
+import { decodeToken } from '../../../utils/jwtUtils'
 
 
 export default function Login() {
     const [showPassword, setShowConfirmPassword] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+    const { login } = useAuth()
 
     React.useEffect(() => {
         AOS.init({ duration: 3000 });
     }, []);
-
-    const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
@@ -34,11 +36,27 @@ export default function Login() {
             try {
                 const res = await axios.post('https://backend-04sy.onrender.com/api/admin/login', values)
 
-                // console.log(res.data.message + ' ,' + ' token: ' + res.data.token)
+                // Store token and admin data
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem("admin", JSON.stringify(res.data.admin));
+                
+                // Update auth context
+                await login(values.email, values.password)
+                
+                // Decode token to get role
+                const decoded = decodeToken(res.data.token)
+                const userRole = decoded?.role
+
                 toast.success(res.data.message)
-                navigate('/admin/profile')
+
+                // Redirect based on role
+                if (userRole === 'workersInTraining') {
+                    navigate('/admin/workersInTraining/overview')
+                } else if (userRole === 'media') {
+                    navigate('/admin/media/overview')
+                } else {
+                    navigate('/admin/profile')
+                }
             } catch (err) {
                 // console.log(err)
                 toast.error(`Error loggining in: ${err.response?.data?.message || err.message}`)
