@@ -1,0 +1,168 @@
+.interviewed-container {
+  padding: 2rem;
+}
+
+.interviewed-header {
+  margin-bottom: 2rem;
+}
+
+.interviewed-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.interviewed-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.interviewed-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.interviewed-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.interviewed-table thead {
+  background-color: #f3f4f6;
+}
+
+.interviewed-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.interviewed-table td {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.interviewed-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.td-fullname {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.td-email {
+  color: #667eea;
+  font-size: 13px;
+}
+
+.td-score {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.td-percentage {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.badge-passed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-failed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.no-data {
+  padding: 3rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.interviewed-footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.refresh-btn {
+  padding: 10px 24px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background-color: #5568d3;
+}
+
+.interviewed-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  gap: 1rem;
+  color: #6b7280;
+}
+
+.spinner-icon {
+  font-size: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .interviewed-table th,
+  .interviewed-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .interviewed-container {
+    padding: 1rem;
+  }
+
+  .interviewed-table {
+    font-size: 12px;
+  }
+
+  .interviewed-table th,
+  .interviewed-table td {
+    padding: 0.5rem;
+  }
+
+  .badge {
+    padding: 2px 8px;
+    font-size: 10px;
+  }
+}
