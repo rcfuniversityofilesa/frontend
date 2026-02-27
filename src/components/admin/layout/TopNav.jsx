@@ -14,7 +14,7 @@ const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
 
-  const apiLink = 'http://localhost:9000'
+  const apiLink = 'https://backend-04sy.onrender.com'
 
   const fetchUser = async () => {
     try {
