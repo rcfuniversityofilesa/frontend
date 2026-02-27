@@ -35,7 +35,7 @@ export default function PostProgram() {
             theme: yup.string().required('Theme is required'),
             programBody: yup.string().required('Program body is required'),
             paragraphTwo: yup.string(), paragraphThree: yup.string(), paragraphFour: yup.string(),
-            programImage: yup.mixed().required('Program image is required'),
+            programImage: yup.mixed(),
             programDate: yup.date().required('Program date is required'),
             programDateTo: yup.date(),
             programTime: yup.string().required('Program time is required'),

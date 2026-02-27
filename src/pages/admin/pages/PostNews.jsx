@@ -31,7 +31,7 @@ export default function PostNews() {
             headLine: yup.string().required('Headline is required'),
             newsBody: yup.string().required('News body is required'),
             paragraphTwo: yup.string(), paragraphThree: yup.string(), paragraphFour: yup.string(),
-            newsImage: yup.mixed().required('News image is required'),
+            newsImage: yup.mixed(),
             newsDate: yup.date().required('Date is required'),
             newsAuthor: yup.string().required('Author is required'),
         }),
