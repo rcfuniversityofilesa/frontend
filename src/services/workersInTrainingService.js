@@ -5,26 +5,21 @@ import axiosInstance from './axiosConfig'
  * Handles all API calls for the Workers In Training system
  */
 
-// ========== APPLICANTS ==========
+ const token = localStorage.getItem('token')
 
-/**
- * Get all applicants
- * @returns {Promise} - Array of applicants
- */
 export const getApplicants = () => {
   return axiosInstance.get(
-    '/workersInTraining/applicants'
+    '/user/apply/workforce/getdetails', {
+        headers: { Authorization: `Bearer ${token}` }
+      }
   )
 }
 
-/**
- * Get applicant by ID
- * @param {string} id - Applicant ID
- * @returns {Promise} - Applicant object
- */
 export const getApplicantById = (id) => {
   return axiosInstance.get(
-    `/workersInTraining/applicants/${id}`
+    `/user/apply/workforce/getdetails/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      }
   )
 }
 

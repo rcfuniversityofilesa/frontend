@@ -15,9 +15,11 @@ const [hymns, setHymns] = useState([])
   const [editMode, setEditMode] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const apiLink = 'https://backend-04sy.onrender.com'
+
   const fetchHymns = async () => {
     try {
-      const res = await axios.get('https://backend-04sy.onrender.com/api/admin/published/hymns')
+      const res = await axios.get(`${apiLink}/api/admin/published/hymns`)
       setHymns(res.data?.data || [])
     } catch (err) {
       toast.error(err.response?.data?.message || err.message)
@@ -49,7 +51,7 @@ const [hymns, setHymns] = useState([])
               try {
                 setLoading(true)
                 const res = await axios.delete(
-                  `https://backend-04sy.onrender.com/api/admin/delete/hymn/${id}`
+                  `${apiLink}/api/admin/delete/hymn/${id}`
                 )
                 toast.success(res.data?.message || 'Hymn deleted')
                 fetchHymns()
@@ -74,7 +76,7 @@ const [hymns, setHymns] = useState([])
       const id = selected._id
 
       const res = await axios.put(
-        `https://backend-04sy.onrender.com/api/admin/update/hymn/${id}`,
+        `${apiLink}/api/admin/update/hymn/${id}`,
         values
       )
 

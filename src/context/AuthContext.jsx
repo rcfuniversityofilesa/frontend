@@ -9,16 +9,11 @@ import {
 
 const AuthContext = createContext()
 
-/**
- * Auth Provider Component
- * Manages global authentication state
- */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)  
   const [error, setError] = useState(null)
 
-  // Initialize auth on mount
   useEffect(() => {
     const initializeAuth = () => {
       try {
@@ -28,11 +23,17 @@ export function AuthProvider({ children }) {
           setUser(null)
           if (token) clearAuth()
         } else {
-          const decoded = decodeToken(token)
+          const decoded = decodeToken(token) || {}
           const admin = localStorage.getItem('admin')
+          const adminData = admin ? JSON.parse(admin) : null
+
+          const roleFromToken = decoded.role
+          const finalRole = roleFromToken || adminData?.role || null
+
           setUser({
             ...decoded,
-            adminData: admin ? JSON.parse(admin) : null,
+            role: finalRole,
+            adminData,
           })
         }
       } catch (err) {
@@ -52,18 +53,30 @@ export function AuthProvider({ children }) {
     setError(null)
 
     try {
-      // API call is handled by Login.jsx - this just updates context after successful login
       const token = localStorage.getItem('token')
-      if (token && !isTokenExpired(token)) {
-        const decoded = decodeToken(token)
-        const admin = localStorage.getItem('admin')
-        setUser({
-          ...decoded,
-          adminData: admin ? JSON.parse(admin) : null,
-        })
+      const adminData = localStorage.getItem('admin')
+      
+      if (!token || isTokenExpired(token)) {
+        setError('Invalid or expired token')
+        setUser(null)
+        return
       }
+
+      const decoded = decodeToken(token) || {}
+      const parsedAdmin = adminData ? JSON.parse(adminData) : null
+
+      const finalRole = decoded.role || parsedAdmin?.role || null
+
+      // Update context with decoded token and admin data
+      setUser({
+        ...decoded,
+        role: finalRole,
+        adminData: parsedAdmin,
+      })
     } catch (err) {
+      console.error('Login error:', err)
       setError(err.message)
+      setUser(null)
       throw err
     } finally {
       setIsLoading(false)
@@ -86,7 +99,7 @@ export function AuthProvider({ children }) {
     error,
     isAuthenticated:
       user !== null && isAuthenticated(),
-    userRole: user?.role || null,
+    userRole: user?.role ? user.role.toString().toLowerCase() : null,
     login,
     logout,
     updateUser,
@@ -99,9 +112,6 @@ export function AuthProvider({ children }) {
   )
 }
 
-/**
- * Custom hook to use Auth Context
- */
 export function useAuth() {
   const context = useContext(AuthContext)
   if (!context) {

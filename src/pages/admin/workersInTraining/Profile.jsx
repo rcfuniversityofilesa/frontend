@@ -1,418 +1,320 @@
 import { useEffect, useState } from 'react'
+import { useAuth } from '../../../context/AuthContext'
+import '../../../styles/pages/admin/pages/Profile.css'
+
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import toast from 'react-hot-toast'
-import {
-  getAdminProfile,
-  updateAdminProfile,
-  changePassword,
-} from '../../../services/workersInTrainingService'
-import { useAuth } from '../../../context/AuthContext'
-import {
-  FaSpinner,
-  FaUser,
-  FaPhone,
-  FaLock,
-} from 'react-icons/fa'
-import '../../../styles/pages/admin/workersInTraining/Profile.module.css'
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
 
-/**
- * Admin Profile Page
- * Allows admin to view and edit their profile
- */
+import Button from '../../../components/common/Button'
+
+
 export default function Profile() {
   const { user } = useAuth()
-  const [profile, setProfile] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [editing, setEditing] = useState(false)
-  const [showPasswordForm, setShowPasswordForm] =
-    useState(false)
-  const [submitting, setSubmitting] =
-    useState(false)
 
-  useEffect(() => {
-    fetchProfile()
-  }, [])
+  const [preview, setPreview] = useState(null)
+    const [initialData, setInitialData] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [detailsLoading, setdetailsLoading] = useState(false)
 
-  const fetchProfile = async () => {
-    try {
-      setLoading(true)
-      const response = await getAdminProfile()
-      setProfile(response.data)
-    } catch (err) {
-      // If API not available, use context data
-      setProfile(
-        user || {
-          fullName: 'Admin User',
-          email: 'admin@example.com',
-          phone: '',
-          bio: '',
+    const apiLink = 'http://localhost:9000'
+
+    const fetchUser = async () => {
+        const token = localStorage.getItem('token')
+        try {
+            setdetailsLoading(true)
+            const res = await axios.get(
+                `${apiLink}/api/admin/profile/me`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            )
+
+            const user = res.data.data
+
+            setInitialData({
+                serialNumber: user.serialNumber || '',
+                firstName: user.firstName || '',
+                middleName: user.middleName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                role: user.role || '',
+                gender: user.gender || '',
+                phoneNumber: user.phoneNumber || '',
+                inductionYear: user.inductionYear || '',
+                passport: null
+            })
+
+            if (user.passport) {
+                setPreview(user.passport)
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message)
+        } finally{
+            setdetailsLoading(false)
         }
-      )
-    } finally {
-      setLoading(false)
     }
-  }
 
-  // Profile Update Form
-  const profileFormik = useFormik({
-    initialValues: profile || {
-      fullName: '',
-      phone: '',
-      bio: '',
-    },
-    enableReinitialize: true,
-    validationSchema: yup.object({
-      fullName: yup
-        .string()
-        .min(2, 'Name is too short')
-        .required('Name is required'),
-      phone: yup
-        .string()
-        .matches(
-          /^[0-9\-\+\s\(\)]*$/,
-          'Invalid phone number'
-        ),
-      bio: yup
-        .string()
-        .max(500, 'Bio is too long'),
-    }),
-    onSubmit: async (values) => {
-      setSubmitting(true)
-      try {
-        await updateAdminProfile(values)
-        setProfile(values)
-        setEditing(false)
-        toast.success('Profile updated successfully')
-      } catch (err) {
-        toast.error('Failed to update profile')
-      } finally {
-        setSubmitting(false)
-      }
-    },
-  })
+    useEffect(() => {
+        fetchUser()
+    }, [])
 
-  // Password Change Form
-  const passwordFormik = useFormik({
-    initialValues: {
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    },
-    validationSchema: yup.object({
-      oldPassword: yup
-        .string()
-        .required('Current password is required'),
-      newPassword: yup
-        .string()
-        .min(8, 'Password is too short')
-        .required('New password is required'),
-      confirmPassword: yup
-        .string()
-        .oneOf(
-          [yup.ref('newPassword'), null],
-          'Passwords must match'
-        )
-        .required('Confirm password is required'),
-    }),
-    onSubmit: async (values) => {
-      setSubmitting(true)
-      try {
-        await changePassword(
-          values.oldPassword,
-          values.newPassword
-        )
-        passwordFormik.resetForm()
-        setShowPasswordForm(false)
-        toast.success(
-          'Password changed successfully'
-        )
-      } catch (err) {
-        toast.error('Failed to change password')
-      } finally {
-        setSubmitting(false)
-      }
-    },
-  })
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: initialData || {
+            serialNumber: '',
+            firstName: '',
+            middleName: '',
+            lastName: '',
+            email: '',
+            role: '',
+            gender: '',
+            phoneNumber: '',
+            passport: null,
+            inductionYear: '',
+        },
+        validationSchema: yup.object({
+            passport: yup.mixed().required('Passport required'),
+            serialNumber: yup.string().required('Serial number required'),
+            firstName: yup.string().required('First name required'),
+            middleName: yup.string().required('Middle name required'),
+            lastName: yup.string().required('Last name required'),
+            email: yup.string().email('Invalid email').required('Email required'),
+            role: yup.string().required('Role is required of you '),
+            gender: yup.string().required('Gender required'),
+            phoneNumber: yup.string().required('Phone number required'),
+            inductionYear: yup.string().required('Year required')
+        }),
+        onSubmit: async values => {
+            setLoading(true)
+            try {
+                const token = localStorage.getItem('token')
+                const formData = new FormData()
 
-  if (loading) {
-    return (
-      <div className="profile-loading">
-        <FaSpinner className="spinner-icon" />
-        <p>Loading profile...</p>
-      </div>
-    )
-  }
+                Object.keys(values).forEach(key => {
+                    formData.append(key, values[key])
+                })
+
+                // const admin = JSON.parse(localStorage.getItem('admin'))
+                // const adminId = admin._id
+
+                await axios.put(
+                    `${apiLink}/api/admin/update/admin/me`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                )
+
+                toast.success('Profile updated')
+                fetchUser()
+            } catch (err) {
+                console.log(err.response?.data?.message || err.message)
+                toast.error(err.response?.data?.message || err.message)
+            } finally {
+                setLoading(false)
+            }
+        }
+    })
+
+    const handleImage = e => {
+        const file = e.target.files[0]
+        if (!file) return
+        const url = URL.createObjectURL(file)
+        setPreview(url)
+        formik.setFieldValue('passport', file)
+    }
+
+
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <h1>My Profile</h1>
-        <p>Manage your account information</p>
-      </div>
+    <div className='settings-page-container'>
+      <Toaster position='top-center' toastOptions={{ duration: 4000 }} />
 
-      <div className="profile-grid">
-        {/* Profile Information Section */}
-        <div className="profile-card">
-          <div className="card-header">
-            <h2>Account Information</h2>
-            {!editing && (
-              <button
-                className="btn btn-primary"
-                onClick={() => setEditing(true)}
-              >
-                Edit
-              </button>
-            )}
-          </div>
+      {detailsLoading ? toast.success('Loading details') : undefined}
 
-          <div className="card-content">
-            {!editing ? (
-              <div className="profile-details">
-                <div className="detail-row">
-                  <span className="label">
-                    <FaUser /> Full Name
-                  </span>
-                  <span className="value">
-                    {profile?.fullName}
-                  </span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">
-                    Email
-                  </span>
-                  <span className="value">
-                    {profile?.email || user?.email}
-                  </span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">
-                    <FaPhone /> Phone
-                  </span>
-                  <span className="value">
-                    {profile?.phone ||
-                      'Not provided'}
-                  </span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">
-                    Bio
-                  </span>
-                  <span className="value">
-                    {profile?.bio ||
-                      'No bio added'}
-                  </span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">
-                    Role
-                  </span>
-                  <span className="value badge">
-                    Workers In Training Admin
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={profileFormik.handleSubmit}>
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input
-                    type="text"
-                    {...profileFormik.getFieldProps(
-                      'fullName'
-                    )}
-                  />
-                  {profileFormik.touched.fullName &&
-                  profileFormik.errors.fullName ? (
-                    <small>
-                      {profileFormik.errors.fullName}
-                    </small>
-                  ) : null}
-                </div>
+      <form className='settings-card-container' onSubmit={formik.handleSubmit}>
 
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input
-                    type="tel"
-                    {...profileFormik.getFieldProps(
-                      'phone'
-                    )}
-                  />
-                  {profileFormik.touched.phone &&
-                  profileFormik.errors.phone ? (
-                    <small>
-                      {profileFormik.errors.phone}
-                    </small>
-                  ) : null}
-                </div>
+        <div className='settings-profile-image'>
+          <img
+            src={preview || '/placeholder.png'}
+            alt=''
+            className='settings-avatar'
+          />
 
-                <div className="form-group">
-                  <label>Bio</label>
-                  <textarea
-                    rows="4"
-                    {...profileFormik.getFieldProps(
-                      'bio'
-                    )}
-                  />
-                  {profileFormik.touched.bio &&
-                  profileFormik.errors.bio ? (
-                    <small>
-                      {profileFormik.errors.bio}
-                    </small>
-                  ) : null}
-                </div>
+          <input
+            type='file'
+            accept='image/*'
+            onChange={handleImage}
+          />
 
-                <div className="form-actions">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      setEditing(false)
-                      profileFormik.resetForm()
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <>
-                        <FaSpinner className="btn-spinner" />
-                        Saving...
-                      </>
-                    ) : (
-                      'Save Changes'
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+          <small className='err'>
+            {formik.touched.passport && formik.errors.passport ? formik.errors.passport : ''}
+          </small>
         </div>
 
-        {/* Security Section */}
-        <div className="profile-card">
-          <div className="card-header">
-            <h2>
-              <FaLock /> Security
-            </h2>
+        <div className='settings-profile'>
+
+          {/* Serial Number */}
+          <div className='settings-profile-group'>
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Serial Number'
+                name='serialNumber'
+                value={formik.values.serialNumber}
+                disabled
+              />
+              <small className='err'>
+                {formik.touched.serialNumber && formik.errors.serialNumber ? formik.errors.serialNumber : ''}
+              </small>
+            </div>
           </div>
 
-          <div className="card-content">
-            <button
-              className="btn btn-outline"
-              onClick={() =>
-                setShowPasswordForm(
-                  !showPasswordForm
-                )
-              }
-            >
-              Change Password
-            </button>
+          {/* Names */}
+          <div className='settings-profile-group'>
 
-            {showPasswordForm && (
-              <form onSubmit={passwordFormik.handleSubmit}>
-                <div className="form-group">
-                  <label>
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    {...passwordFormik.getFieldProps(
-                      'oldPassword'
-                    )}
-                  />
-                  {passwordFormik.touched
-                    .oldPassword &&
-                  passwordFormik.errors
-                    .oldPassword ? (
-                    <small>
-                      {
-                        passwordFormik.errors
-                          .oldPassword
-                      }
-                    </small>
-                  ) : null}
-                </div>
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='First Name'
+                name='firstName'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.firstName}
+              />
+              <small className='err'>
+                {formik.touched.firstName && formik.errors.firstName ? formik.errors.firstName : ''}
+              </small>
+            </div>
 
-                <div className="form-group">
-                  <label>New Password</label>
-                  <input
-                    type="password"
-                    {...passwordFormik.getFieldProps(
-                      'newPassword'
-                    )}
-                  />
-                  {passwordFormik.touched
-                    .newPassword &&
-                  passwordFormik.errors
-                    .newPassword ? (
-                    <small>
-                      {
-                        passwordFormik.errors
-                          .newPassword
-                      }
-                    </small>
-                  ) : null}
-                </div>
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Middle Name'
+                name='middleName'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.middleName}
+              />
+              <small className='err'>
+                {formik.touched.middleName && formik.errors.middleName ? formik.errors.middleName : ''}
+              </small>
+            </div>
 
-                <div className="form-group">
-                  <label>
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    {...passwordFormik.getFieldProps(
-                      'confirmPassword'
-                    )}
-                  />
-                  {passwordFormik.touched
-                    .confirmPassword &&
-                  passwordFormik.errors
-                    .confirmPassword ? (
-                    <small>
-                      {
-                        passwordFormik.errors
-                          .confirmPassword
-                      }
-                    </small>
-                  ) : null}
-                </div>
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Last Name'
+                name='lastName'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.lastName}
+              />
+              <small className='err'>
+                {formik.touched.lastName && formik.errors.lastName ? formik.errors.lastName : ''}
+              </small>
+            </div>
 
-                <div className="form-actions">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      setShowPasswordForm(false)
-                      passwordFormik.resetForm()
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <>
-                        <FaSpinner className="btn-spinner" />
-                        Updating...
-                      </>
-                    ) : (
-                      'Update Password'
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
           </div>
+
+          {/* Gender */}
+          <div className='settings-profile-group'>
+            <div className='settings-field-gender'>
+              <label className='radio'>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Male'
+                  onChange={formik.handleChange}
+                  checked={formik.values.gender === 'Male'}
+                />
+                Male
+              </label>
+
+              <label className='radio'>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Female'
+                  onChange={formik.handleChange}
+                  checked={formik.values.gender === 'Female'}
+                />
+                Female
+              </label>
+
+            </div>
+            <small className='err-gen'>
+              {formik.touched.gender && formik.errors.gender ? formik.errors.gender : ''}
+            </small>
+          </div>
+
+          {/* Email and Phone */}
+          <div className='settings-profile-group'>
+            <div className='settings-field'>
+              <input
+                type='email'
+                placeholder='Email'
+                name='email'
+                value={formik.values.email}
+                disabled
+              />
+              <small className='err'></small>
+            </div>
+
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Phone Number'
+                name='phoneNumber'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phoneNumber}
+              />
+              <small className='err'>
+                {formik.touched.phoneNumber && formik.errors.phoneNumber ? formik.errors.phoneNumber : ''}
+              </small>
+            </div>
+          </div>
+
+          {/* Year and Position */}
+          <div className='settings-profile-group'>
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Year of induction'
+                name='inductionYear'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.inductionYear}
+              />
+              <small className='err'>
+                {formik.touched.inductionYear && formik.errors.inductionYear ? formik.errors.inductionYear : ''}
+              </small>
+            </div>
+
+            <div className='settings-field'>
+              <input
+                type='text'
+                placeholder='Role'
+                name='role'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.role}
+                disabled
+                readOnly
+              />
+              <small className='err'>
+                {formik.touched.role && formik.errors.role ? formik.errors.role : ''}
+              </small>
+            </div>
+          </div>
+
+          <Button type='submit' text={loading ? 'Submitting...' : 'Save Changes'} />
         </div>
-      </div>
+      </form>
     </div>
   )
 }

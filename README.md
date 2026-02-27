@@ -114,41 +114,6 @@ src/
 - **React Hot Toast 2.6** - Toast notifications
 - **Classnames 2.5** - Dynamic class name management
 
-## 💻 Getting Started
-
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-```bash
-git clone [repository-url]
-cd frontend
-```
-
-2. Install dependencies
-```bash
-npm install
-```
-
-3. Start development server
-```bash
-npm run dev
-```
-
-4. Build for production
-```bash
-npm run build
-```
-
-### Available Scripts
-
-- `npm run dev` - Start the development server (typically runs on http://localhost:5173)
-- `npm run build` - Build the project for production
-- `npm run preview` - Preview the production build locally
-- `npm run lint` - Run ESLint to check code quality
 
 ## 🔐 Authentication
 
@@ -157,16 +122,7 @@ The admin portal includes:
 - **Register Page** - Admin registration (if enabled)
 - **Role-Based Access** - Automatic redirection based on admin role
 
-## 📱 Deployment
 
-The project includes a `vercel.json` configuration file for easy deployment to Vercel.
-
-### Deploy to Vercel
-```bash
-vercel
-```
-
-Or connect your Git repository to Vercel for automatic deployments on push.
 
 ## 🎨 Styling Approach
 
@@ -174,11 +130,5 @@ Or connect your Git repository to Vercel for automatic deployments on push.
 - Global styles for shared utilities
 - Bootstrap for responsive grid and components
 - Consistent color scheme and spacing throughout
-
-## 📞 Support
-
-For questions or issues, please contact RCF or submit an issue in the repository.
-
----
 
 **Last Updated:** February 2026

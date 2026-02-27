@@ -1,40 +1,40 @@
-.applicants-container {
+.applicantscontainer {
   padding: 2rem;
 }
 
-.applicants-header {
+.applicantsheader {
   margin-bottom: 2rem;
 }
 
-.applicants-header h1 {
+.applicantsheader h1 {
   font-size: 28px;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 8px;
 }
 
-.applicants-header p {
+.applicantsheader p {
   color: #6b7280;
   font-size: 14px;
 }
 
-.applicants-table-wrapper {
+.applicantstablewrapper {
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.applicants-table {
+.applicantstable {
   width: 100%;
   border-collapse: collapse;
 }
 
-.applicants-table thead {
+.applicantstable thead {
   background-color: #f3f4f6;
 }
 
-.applicants-table th {
+.applicantstable th {
   padding: 1rem;
   text-align: left;
   font-weight: 600;
@@ -44,7 +44,7 @@
   letter-spacing: 0.5px;
 }
 
-.applicants-table td {
+.applicantstable td {
   padding: 1rem;
   border-top: 1px solid #e5e7eb;
 }

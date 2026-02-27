@@ -41,7 +41,13 @@ export default function RoleGuard({
   }
 
   // User authenticated but wrong role
-  if (userRole !== requiredRole) {
+  // compare case-insensitively; both sides should already be lowercased
+  const normalizedUserRole = userRole ? userRole.toString().toLowerCase() : ''
+  const normalizedRequired = requiredRole
+    ? requiredRole.toString().toLowerCase()
+    : ''
+
+  if (normalizedUserRole !== normalizedRequired) {
     return fallback
   }
 

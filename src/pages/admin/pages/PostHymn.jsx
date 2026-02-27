@@ -13,6 +13,8 @@ export default function PostHymn() {
   const [stanzaCount, setStanzaCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
+  const apiLink = 'https://backend-04sy.onrender.com'
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -34,7 +36,7 @@ export default function PostHymn() {
       setLoading(true)
       try {
         await axios.post(
-          'https://backend-04sy.onrender.com/api/admin/post/hymn',
+          `${apiLink}/api/admin/post/hymn`,
           values
         )
 

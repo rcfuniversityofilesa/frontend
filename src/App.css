@@ -51,6 +51,14 @@
   --loader-text-color: #fff;
   --loader-overlay: linear-gradient(135deg, #2563EB, #110de0);
 
+
+    --primary-glow: #3b82f6;
+    --secondary-glow: #8b5cf6;
+    /* --glass-bg: rgba(15, 23, 42, 0.8); */
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --text-main: #f8fafc;
+    --error: #ff4d4d;
+
 }
 
 .rcf-loader-open {

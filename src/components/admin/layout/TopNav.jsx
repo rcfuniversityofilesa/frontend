@@ -14,12 +14,14 @@ const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
 
+  const apiLink = 'http://localhost:9000'
+
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem('token');
 
       const res = await axios.get(
-        'https://backend-04sy.onrender.com/api/admin/profile/me',
+        `${apiLink}/api/admin/profile/me`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -31,14 +33,13 @@ const [email, setEmail] = useState('');
     } catch (err) {
       console.log(err);
       toast.error(err.response?.data?.message || err.message);
-      navigate('/auth/login');  
+      navigate('/admin/auth/login');  
     }
   };
 
   const logOut = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('admin');
-    navigate('/auth/login');
+    navigate('/admin/auth/login');
   };
 
   useEffect(() => {

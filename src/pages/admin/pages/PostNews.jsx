@@ -13,6 +13,8 @@ export default function PostNews() {
     const [preview, setPreview] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
 
+    const apiLink = 'https://backend-04sy.onrender.com'
+
     const formik = useFormik({
         initialValues: {
             headLine: '',
@@ -49,7 +51,7 @@ export default function PostNews() {
                 })
 
                 await axios.post(
-                    'https://backend-04sy.onrender.com/api/admin/post/news',
+                    `${apiLink}/api/admin/post/news`,
                     formData,
                     {
                         responseType: "blob",

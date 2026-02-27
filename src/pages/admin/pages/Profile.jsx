@@ -12,12 +12,16 @@ export default function Profile() {
     const [preview, setPreview] = useState(null)
     const [initialData, setInitialData] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [detailsLoading, setdetailsLoading] = useState(false)
+
+    const apiLink = 'https://backend-04sy.onrender.com'
 
     const fetchUser = async () => {
         const token = localStorage.getItem('token')
         try {
+            setdetailsLoading(true)
             const res = await axios.get(
-                'https://backend-04sy.onrender.com/api/admin/profile/me',
+                `${apiLink}/api/admin/profile/me`,
                 { headers: { Authorization: `Bearer ${token}` } }
             )
 
@@ -33,7 +37,6 @@ export default function Profile() {
                 gender: user.gender || '',
                 phoneNumber: user.phoneNumber || '',
                 inductionYear: user.inductionYear || '',
-                position: user.position || '',
                 passport: null
             })
 
@@ -42,6 +45,8 @@ export default function Profile() {
             }
         } catch (err) {
             toast.error(err.response?.data?.message || err.message)
+        } finally{
+            setdetailsLoading(false)
         }
     }
 
@@ -62,7 +67,6 @@ export default function Profile() {
             phoneNumber: '',
             passport: null,
             inductionYear: '',
-            position: ''
         },
         validationSchema: yup.object({
             passport: yup.mixed().required('Passport required'),
@@ -74,8 +78,7 @@ export default function Profile() {
             role: yup.string().required('Role is required of you '),
             gender: yup.string().required('Gender required'),
             phoneNumber: yup.string().required('Phone number required'),
-            inductionYear: yup.string().required('Year required'),
-            position: yup.string().required('Position required')
+            inductionYear: yup.string().required('Year required')
         }),
         onSubmit: async values => {
             setLoading(true)
@@ -87,11 +90,11 @@ export default function Profile() {
                     formData.append(key, values[key])
                 })
 
-                const admin = JSON.parse(localStorage.getItem('admin'))
-                const adminId = admin._id
+                // const admin = JSON.parse(localStorage.getItem('admin'))
+                // const adminId = admin._id
 
                 await axios.put(
-                    `https://backend-04sy.onrender.com/api/admin/update/admin/${adminId}`,
+                    `${apiLink}/api/admin/update/admin/me`,
                     formData,
                     {
                         headers: {
@@ -104,6 +107,7 @@ export default function Profile() {
                 toast.success('Profile updated')
                 fetchUser()
             } catch (err) {
+                console.log(err.response?.data?.message || err.message)
                 toast.error(err.response?.data?.message || err.message)
             } finally {
                 setLoading(false)
@@ -122,6 +126,8 @@ export default function Profile() {
     return (
         <div className='settings-page-container'>
             <Toaster position='top-center' toastOptions={{ duration: 4000 }} />
+
+            {detailsLoading ? toast.success('Loading details') : undefined}
 
             <form className='settings-card-container' onSubmit={formik.handleSubmit}>
 
@@ -267,37 +273,6 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    {/* Role */}
-                    <div className='settings-profile-group'>
-                        <div className='settings-field-role'>
-                            <label className='role'>
-                                <input
-                                    type='radio'
-                                    name='role'
-                                    value='Media'
-                                    onChange={formik.handleChange}
-                                    checked={formik.values.role === 'Media'}
-                                />
-                                Media Coordinator
-                            </label>
-
-                            <label className='role'>
-                                <input
-                                    type='radio'
-                                    name='role'
-                                    value='WorkersInTraining'
-                                    onChange={formik.handleChange}
-                                    checked={formik.values.role === 'WorkersInTraining'}
-                                />
-                                Workers In Training
-                            </label>
-
-                        </div>
-                        <small className='err-gen'>
-                            {formik.touched.role && formik.errors.role ? formik.errors.role : ''}
-                        </small>
-                    </div>
-
                     {/* Year and Position */}
                     <div className='settings-profile-group'>
                         <div className='settings-field'>
@@ -317,14 +292,16 @@ export default function Profile() {
                         <div className='settings-field'>
                             <input
                                 type='text'
-                                placeholder='Position'
-                                name='position'
+                                placeholder='Role'
+                                name='role'
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.position}
+                                value={formik.values.role}
+                                disabled
+                                readOnly
                             />
                             <small className='err'>
-                                {formik.touched.position && formik.errors.position ? formik.errors.position : ''}
+                                {formik.touched.role && formik.errors.role ? formik.errors.role : ''}
                             </small>
                         </div>
                     </div>

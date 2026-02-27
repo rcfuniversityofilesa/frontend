@@ -16,9 +16,11 @@ export default function PublishedProgram() {
   const [loading, setLoading] = useState(false)
   const [preview, setPreview] = useState(null)
 
+  const apiLink = 'https://backend-04sy.onrender.com'
+
   const fetchPrograms = async () => {
     try {
-      const res = await axios.get('https://backend-04sy.onrender.com/api/admin/published/programmes')
+      const res = await axios.get(`${apiLink}/api/admin/published/programmes`)
       setPrograms(res.data?.data || [])
     } catch (err) {
       toast.error(err.response?.data?.message || err.message)
@@ -42,7 +44,7 @@ export default function PublishedProgram() {
             toast.dismiss(t.id)
             try {
               setLoading(true)
-              const res = await axios.delete(`https://backend-04sy.onrender.com/api/admin/delete/program/${id}`)
+              const res = await axios.delete(`${apiLink}/api/admin/delete/program/${id}`)
               toast.success(res.data?.message || res.message)
               fetchPrograms()
             } catch (err) {
@@ -76,7 +78,7 @@ export default function PublishedProgram() {
       Object.keys(values).forEach(key => {
         if (values[key] !== undefined && values[key] !== null) fd.append(key, values[key])
       })
-      const res = await axios.put(`https://backend-04sy.onrender.com/api/admin/update/program/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const res = await axios.put(`${apiLink}/api/admin/update/program/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
       toast.success(res.data?.message || res.message)
       setEditMode(false)
       setSelected(null)

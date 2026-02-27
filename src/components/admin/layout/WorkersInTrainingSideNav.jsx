@@ -10,17 +10,10 @@ import {
   FaBars,
   FaTimes,
 } from 'react-icons/fa'
-import '../../../styles/components/admin/layout/WorkersInTrainingSideNav.module.css'
+import styles from '../../../styles/components/admin/layout/WorkersInTrainingSideNav.module.css'
 
-/**
- * Workers In Training Sidebar Navigation
- */
-export default function WorkersInTrainingSideNav({
-  isExpanded,
-  setIsExpanded,
-  mobileOpen,
-  setMobileOpen,
-}) {
+
+export default function WorkersInTrainingSideNav({ isExpanded, setIsExpanded, mobileOpen, setMobileOpen }) {
   const location = useLocation()
 
   const menuItems = [
@@ -56,56 +49,50 @@ export default function WorkersInTrainingSideNav({
     },
   ]
 
-  const isActive = (path) =>
-    location.pathname === path
+  const isMobile = window.innerWidth <= 1024;
+
+  const rootClass = `
+      dash-sidenav 
+      ${isExpanded ? '' : 'collapsed'} 
+      ${mobileOpen ? 'mobile-open' : ''} 
+      ${!mobileOpen && isMobile ? 'mobile-hidden' : ''}
+    `;
+
+  function toggleExpand() {
+    if (isMobile) setMobileOpen(!mobileOpen);
+    else setIsExpanded(prev => !prev);
+  }
+
+  function closeMobile() {
+    if (isMobile) setMobileOpen(false);
+  }
 
   return (
-    <nav
-      className={`workers-sidenav ${isExpanded ? 'expanded' : 'collapsed'} ${mobileOpen ? 'mobile-open' : ''}`}
-    >
-      <div className="sidenav-header">
-        <button
-          className="toggle-btn"
-          onClick={() =>
-            setIsExpanded(!isExpanded)
-          }
-          aria-label="Toggle sidebar"
-        >
-          {isExpanded ? (
-            <FaTimes />
-          ) : (
-            <FaBars />
-          )}
-        </button>
-      </div>
+    <>
+      <div className={rootClass}>
+        <div className={styles.menu}>
+          <h3 className={styles.menuTitle}>Menu</h3>
 
-      <ul className="nav-menu">
-        {menuItems.map((item) => (
-          <li key={item.path}>
+          <ul className={styles.navmenu}> {menuItems.map((item) => (
             <Link
               to={item.path}
-              className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
-              onClick={() =>
-                setMobileOpen(false)
-              }
-              title={
-                !isExpanded
-                  ? item.label
-                  : ''
-              }
+              className={styles.sideLinks}
             >
-              <span className="nav-icon">
-                {item.icon}
-              </span>
-              {isExpanded && (
-                <span className="nav-label">
-                  {item.label}
+              <li key={item.path} onClick={closeMobile}>
+                <span className={styles.icon}>
+                  {item.icon}
                 </span>
-              )}
+                {isExpanded && (
+                  <span>
+                    {item.label}
+                  </span>
+                )}
+              </li>
             </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+          ))}
+          </ul>
+        </div>
+      </div>
+    </>
   )
 }

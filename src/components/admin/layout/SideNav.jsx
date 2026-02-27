@@ -59,33 +59,35 @@ export default function SideNav({ isExpanded, setIsExpanded, mobileOpen, setMobi
                                 data-bs-toggle="dropdown"
                                 onClick={() => setNavDropdown(!navDropdown)}
                             >
-                                <FaPoll className={styles.icon}/>
+                                <FaPoll className={styles.icon} />
                                 {isExpanded && <span className={styles.sidedropdownToggle}>Post</span>}
                             </button>
 
                             <div className='dropdown-menu bg-dark'>
-                                <div className={styles.navDropdown}>
-                                    <Link className={styles.sideLinks} to="/admin/upload/hymn" onClick={() => { setNavDropdown(false) }}>
-                                        <li onClick={closeMobile}>
-                                            <FiMusic className={styles.icon} />
-                                            {isExpanded && <span>Upload Hymn</span>}
-                                        </li>
-                                    </Link>
+                                <ul>
+                                    <div className={styles.navDropdown}>
+                                        <Link className={styles.sideLinks} to="/admin/upload/hymn" onClick={() => { setNavDropdown(false) }}>
+                                            <li onClick={closeMobile}>
+                                                <FiMusic className={styles.icon} />
+                                                {isExpanded && <span>Upload Hymn</span>}
+                                            </li>
+                                        </Link>
 
-                                    <Link className={styles.sideLinks} to="/admin/upload/news" onClick={() => { setNavDropdown(false) }}>
-                                        <li onClick={closeMobile}>
-                                            <FiEdit className={styles.icon} />
-                                            {isExpanded && <span>Upload News</span>}
-                                        </li>
-                                    </Link>
+                                        <Link className={styles.sideLinks} to="/admin/upload/news" onClick={() => { setNavDropdown(false) }}>
+                                            <li onClick={closeMobile}>
+                                                <FiEdit className={styles.icon} />
+                                                {isExpanded && <span>Upload News</span>}
+                                            </li>
+                                        </Link>
 
-                                    <Link className={styles.sideLinks} to="/admin/upload/program" onClick={() => { setNavDropdown(false) }}>
-                                        <li onClick={closeMobile}>
-                                            <FiUploadCloud className={styles.icon} />
-                                            {isExpanded && <span>Upload Program</span>}
-                                        </li>
-                                    </Link>
-                                </div>
+                                        <Link className={styles.sideLinks} to="/admin/upload/program" onClick={() => { setNavDropdown(false) }}>
+                                            <li onClick={closeMobile}>
+                                                <FiUploadCloud className={styles.icon} />
+                                                {isExpanded && <span>Upload Program</span>}
+                                            </li>
+                                        </Link>
+                                    </div>
+                                </ul>
                             </div>
                         </div>
                     </li>
@@ -99,33 +101,35 @@ export default function SideNav({ isExpanded, setIsExpanded, mobileOpen, setMobi
                                 data-bs-toggle="dropdown"
                                 onClick={() => setNavDropdown(!navDropdown)}
                             >
-                                <FaReadme className={styles.icon}/>
+                                <FaReadme className={styles.icon} />
                                 {isExpanded && <span className={styles.sidedropdownToggle}>Published</span>}
                             </button>
 
                             <div className='dropdown-menu bg-dark'>
-                                <div className={styles.navDropdown}>
-                                    <Link className={styles.sideLinks} to="/admin/published/hymns">
-                                        <li onClick={closeMobile}>
-                                            <FiBookOpen className={styles.icon} />
-                                            {isExpanded && <span>Published Hymns</span>}
-                                        </li>
-                                    </Link>
+                                <ul>
+                                    <div className={styles.navDropdown}>
+                                        <Link className={styles.sideLinks} to="/admin/published/hymns">
+                                            <li onClick={closeMobile}>
+                                                <FiBookOpen className={styles.icon} />
+                                                {isExpanded && <span>Published Hymns</span>}
+                                            </li>
+                                        </Link>
 
-                                    <Link className={styles.sideLinks} to="/admin/published/news">
-                                        <li onClick={closeMobile}>
-                                            <FiFileText className={styles.icon} />
-                                            {isExpanded && <span>News Published</span>}
-                                        </li>
-                                    </Link>
+                                        <Link className={styles.sideLinks} to="/admin/published/news">
+                                            <li onClick={closeMobile}>
+                                                <FiFileText className={styles.icon} />
+                                                {isExpanded && <span>News Published</span>}
+                                            </li>
+                                        </Link>
 
-                                    <Link className={styles.sideLinks} to="/admin/published/programs">
-                                        <li onClick={closeMobile}>
-                                            <FiGrid className={styles.icon} />
-                                            {isExpanded && <span>Programs Published</span>}
-                                        </li>
-                                    </Link>
-                                </div>
+                                        <Link className={styles.sideLinks} to="/admin/published/programs">
+                                            <li onClick={closeMobile}>
+                                                <FiGrid className={styles.icon} />
+                                                {isExpanded && <span>Programs Published</span>}
+                                            </li>
+                                        </Link>
+                                    </div>
+                                </ul>
                             </div>
                         </div>
                     </li>
@@ -136,7 +140,7 @@ export default function SideNav({ isExpanded, setIsExpanded, mobileOpen, setMobi
                             {isExpanded && <span>Applications</span>}
                         </li>
                     </Link>
-                    
+
                     <Link className={styles.sideLinks} to="/admin/inbox">
                         <li onClick={closeMobile}>
                             <FaReply className={styles.icon} />

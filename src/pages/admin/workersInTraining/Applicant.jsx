@@ -1,35 +1,26 @@
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import toast from 'react-hot-toast'
-import {
-  getApplicants,
-  hasApplicantTakenExam,
-  moveToInterviewed,
-} from '../../../services/workersInTrainingService'
-import {
-  FaSpinner,
-  FaCheck,
-  FaTimes,
-} from 'react-icons/fa'
-import '../../../styles/pages/admin/workersInTraining/Applicant.module.css'
+import {  getApplicants,  hasApplicantTakenExam, moveToInterviewed, } from '../../../services/workersInTrainingService'
+import { FaSpinner, FaCheck, FaTimes, } from 'react-icons/fa'
 
-/**
- * Applicants Management Page
- * Lists all applicants and manages interview status
- * Before approving for interview, checks if exam was taken
- */
+import '../../../styles/pages/admin/pages/Applicant.module.css'
+
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
+
+import Button from '../../../components/common/Button'
+
+
 export default function Applicant() {
-  const [applicants, setApplicants] =
-    useState([])
-  const [loading, setLoading] = useState(true)
-  const [examStatusMap, setExamStatusMap] =
-    useState({})
-  const [selectedApplicant, setSelectedApplicant] =
-    useState(null)
+  const [examStatusMap, setExamStatusMap] = useState({})
+  const [selectedApplicant, setSelectedApplicant] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [formData, setFormData] = useState([])
+  const [selected, setSelected] = useState(null)
   const [showModal, setShowModal] = useState(false)
-  const [submitting, setSubmitting] =
-    useState(false)
+  const [loading, setLoading] = useState(false)
+
 
   useEffect(() => {
     fetchApplicants()
@@ -39,7 +30,7 @@ export default function Applicant() {
     try {
       setLoading(true)
       const response = await getApplicants()
-      setApplicants(response.data)
+      setFormData(response.data?.data || [])
 
       // Check exam status for each applicant
       const statusMap = {}
@@ -56,9 +47,12 @@ export default function Applicant() {
         }
       }
       setExamStatusMap(statusMap)
+
+
     } catch (err) {
       toast.error(
-        'Failed to fetch applicants'
+        'Failed to fetch applicants',
+        err.response?.data?.message || err.message
       )
     } finally {
       setLoading(false)
@@ -94,12 +88,40 @@ export default function Applicant() {
     } catch (err) {
       toast.error(
         err.response?.data?.message ||
-          'Failed to move applicant'
+        'Failed to move applicant'
       )
     } finally {
       setSubmitting(false)
     }
   }
+
+  const openModal = item => {
+    setSelected(item)
+    setShowModal(true)
+  }
+
+  const handleDelete = (id) => {
+    toast((t) => (
+      <div>
+        <p>Delete this program? This action cannot be undone.</p>
+        <div className="toast-actions">
+          <button onClick={async () => {
+            toast.dismiss(t.id)
+            try {
+              setLoading(true)
+              const res = await axios.delete(`${apiLink}/api/admin/delete/appliedWorker/${id}`)
+              toast.success(res.data?.message || res.message)
+              fetchApplicant()
+            } catch (err) {
+              toast.error(err.response?.data?.message || err.message)
+            } finally { setLoading(false) }
+          }}>OK</button>
+          <button onClick={() => toast.dismiss(t.id)}>Cancel</button>
+        </div>
+      </div>
+    ), { duration: 4000 })
+  }
+
 
   if (loading) {
     return (
@@ -111,139 +133,137 @@ export default function Applicant() {
   }
 
   return (
-    <div className="applicants-container">
-      <div className="applicants-header">
-        <h1>Manage Applicants</h1>
-        <p>
-          Review applications and manage interviews
-        </p>
-      </div>
+    <div className='application-page'>
+      <Toaster position='top-center' toastOptions={{ duration: 4000 }} />
+      <div className='application-container'>
 
-      <div className="applicants-table-wrapper">
-        {applicants.length === 0 ? (
-          <div className="no-data">
-            <p>No applicants found</p>
-          </div>
-        ) : (
-          <table className="applicants-table">
-            <thead>
-              <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Exam Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applicants.map((app) => (
-                <tr key={app._id}>
-                  <td>{app.fullName}</td>
-                  <td>{app.email}</td>
-                  <td>
-                    <span
-                      className={`badge badge-${app.status?.toLowerCase()}`}
-                    >
-                      {app.status ||
-                        'pending'}
-                    </span>
-                  </td>
-                  <td>
-                    {examStatusMap[app._id] ? (
-                      <span className="badge badge-success">
-                        <FaCheck /> Exam Taken
-                      </span>
-                    ) : (
-                      <span className="badge badge-danger">
-                        <FaTimes /> Exam Not Taken
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() =>
-                        handleMoveToInterview(
-                          app
-                        )
-                      }
-                      disabled={
-                        !examStatusMap[
-                          app._id
-                        ]
-                      }
-                      title={
-                        !examStatusMap[
-                          app._id
-                        ]
-                          ? 'Applicant must take exam first'
-                          : ''
-                      }
-                    >
-                      Interview
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <div className="modal-header">
-              <h2>Confirm Interview</h2>
-              <button
-                className="modal-close"
-                onClick={() =>
-                  setShowModal(false)
-                }
-              >
-                ×
-              </button>
-            </div>
-            <div className="modal-body">
-              <p>
-                Move{' '}
-                <strong>
-                  {
-                    selectedApplicant
-                      ?.fullName
-                  }
-                </strong>{' '}
-                to interviewed list?
-              </p>
-            </div>
-            <div className="modal-footer">
-              <button
-                className="btn btn-secondary"
-                onClick={() =>
-                  setShowModal(false)
-                }
-              >
-                Cancel
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={confirmInterview}
-                disabled={submitting}
-              >
-                {submitting ? (
-                  <>
-                    <FaSpinner className="btn-spinner" />
-                    Processing...
-                  </>
-                ) : (
-                  'Confirm'
-                )}
-              </button>
-            </div>
-          </div>
+        <div className='application-header'>
+          <h2>Workforce Applications</h2>
         </div>
-      )}
+
+        {!loading && formData.length === 0 && (
+          <div className='empty'>No application made yet</div>
+        )}
+
+        <div className='application-content'>
+          {formData.map((item, i) => (
+            <div key={item._id || item.id || i} className='application-card'>
+              <div className='application-avatar-cont'>
+                <img src={item.passport} className='application-avatar' alt='' />
+              </div>
+
+              <div className='application-card-body'>
+                <div className='application-body-group'>
+                  <span>Full Name</span>
+                  <h3>{item.fullName}</h3>
+                </div>
+
+                <div className='application-body-group'>
+                  <span>Gender</span>
+                  <h3>{item.gender}</h3>
+                </div>
+
+                <div className='application-body-group'>
+                  <span>Programme</span>
+                  <h3>{item.programme}</h3>
+                </div>
+
+                <div className="pub-modal-actions">
+                  <Button text='View Full Profile' onClick={() => openModal(item)} />
+                  <button className="delete" onClick={() => handleDelete(item._id || item.id)}>Delete</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {showModal && selected && (
+          <div className='application-modal' onClick={() => setShowModal(false)}>
+            <div className='application-modal-inner' onClick={e => e.stopPropagation()}>
+
+              <div className='modal-header'>
+                <div className='modal-user-summary'>
+                  <img src={selected.passport} className='modal-avatar' alt='' />
+                  <div className='modal-title'>
+                    <h3>{selected.fullName}</h3>
+                    <p>{selected.programme}, {selected.level}</p>
+                  </div>
+                </div>
+                <button className='close-modal' onClick={() => setShowModal(false)}>Close</button>
+              </div>
+
+              <div className='modal-grid'>
+                <div className='detail-item'>
+                  <strong>Gender</strong>
+                  <span>{selected.gender}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Phone</strong>
+                  <span>{selected.phoneNumber}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Date of Birth</strong>
+                  <span>{selected.DOB ? selected.DOB.split("T")[0] : ""}</span>
+                </div>
+
+                <div className='detail-item full-width'>
+                  <strong>Campus Address</strong>
+                  <span>{selected.capAddress}</span>
+                </div>
+
+                <div className='detail-item full-width'>
+                  <strong>Home Address</strong>
+                  <span>{selected.homeAddress}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Saved</strong>
+                  <span>{selected.saved}</span>
+                </div>
+
+                <div className='detail-item full-width'>
+                  <strong>Salvation Story</strong>
+                  <span>{selected.salvationStory}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Water Baptized</strong>
+                  <span>{selected.baptized}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Spirit Baptized</strong>
+                  <span>{selected.holySpiritbaptized}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Preferred Unit</strong>
+                  <span>{selected.unit}</span>
+                </div>
+
+                <div className='detail-item full-width'>
+                  <strong>Reason</strong>
+                  <span>{selected.reason}</span>
+                </div>
+
+                <div className='detail-item'>
+                  <strong>Relationship</strong>
+                  <span>{selected.relationship}</span>
+                </div>
+
+                <div className='detail-item full-width'>
+                  <strong>Other Details</strong>
+                  <span>{selected.details}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   )
 }

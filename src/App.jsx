@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, Outlet } from 'react-router-dom'
 
 // Components
 import Loader from './components/ui/Loader'
+import TopNav from './components/admin/layout/TopNav'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import ProtectedRoute from './components/auth/ProtectedRoute'
@@ -11,6 +12,7 @@ import RoleGuard from './components/auth/RoleGuard'
 
 // Public Pages
 import Home from './pages/public/Home'
+import Aboutus from './pages/public/AboutUs'
 import Contactus from './pages/public/ContactUs'
 import Programs from './pages/public/Programs'
 import News from './pages/public/News'
@@ -23,7 +25,8 @@ import ExamResults from './pages/public/ExamResults'
 
 // Admin Layouts
 import SideNav from './components/admin/layout/SideNav'
-import WorkersInTrainingLayout from './components/admin/layout/WorkersInTrainingLayout'
+import WorkersInTrainingSideNav from './components/admin/layout/WorkersInTrainingSideNav'
+// import WorkersInTrainingLayout from './components/admin/layout/WorkersInTrainingLayout'
 
 // Auth
 import Register from './pages/admin/auth/Register'
@@ -87,6 +90,7 @@ export default function App() {
 
         {/* PUBLIC ROUTES */}
         <Route path="/" element={<Home />} />
+        <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/events" element={<Programs />} />
         <Route path="/news" element={<News />} />
@@ -100,11 +104,11 @@ export default function App() {
 
         {/* AUTH ROUTES */}
         <Route path="/admin/auth/register" element={<Register />} />
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/auth/login" element={<Login />} />
         <Route path="/admin/unauthorized" element={<Unauthorized />} />
 
         {/* WORKERS IN TRAINING ADMIN */}
-        <Route
+        {/* <Route
           path="/admin/workersInTraining"
           element={
             <ProtectedRoute>
@@ -115,6 +119,52 @@ export default function App() {
                   mobileOpen={mobileOpen}
                   setMobileOpen={setMobileOpen}
                 />
+              </RoleGuard>
+            </ProtectedRoute>
+          }
+        >
+          <Route path="overview" element={<WITOverview />} />
+          <Route path="applicants" element={<WITApplicant />} />
+          <Route path="interviewed" element={<WITInterviewed />} />
+          <Route path="exam-settings" element={<WITExamSettings />} />
+          <Route path="exam-results" element={<WITExamResults />} />
+          <Route path="profile" element={<WITProfile />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route> */}
+
+        {/* MEDIA ADMIN */}
+        <Route
+          path="/admin/workersInTraining"
+          element={
+            <ProtectedRoute>
+              <RoleGuard requiredRole="workersInTraining">
+                <div className="layout">
+                  <WorkersInTrainingSideNav
+                    isExpanded={isExpanded}
+                    setIsExpanded={setIsExpanded}
+                    mobileOpen={mobileOpen}
+                    setMobileOpen={setMobileOpen}
+                  />
+                  <div
+                    className={`main-content ${isExpanded ? '' : 'collapsed'} ${mobileOpen ? 'shifted' : ''}`}
+                    style={{ transition: 'margin-left 300ms ease' }}
+                  >
+                    <TopNav
+                      isExpanded={isExpanded}
+                      setIsExpanded={setIsExpanded}
+                      mobileOpen={mobileOpen}
+                      setMobileOpen={setMobileOpen}
+                    />
+                    <div className="admin-content">
+                      <Outlet />
+                    </div>
+                  </div>
+                  <div
+                    className={`mobile-overlay ${mobileOpen ? 'visible' : ''}`}
+                    onClick={() => setMobileOpen(false)}
+                    aria-hidden={!mobileOpen}
+                  />
+                </div>
               </RoleGuard>
             </ProtectedRoute>
           }
@@ -145,8 +195,14 @@ export default function App() {
                     className={`main-content ${isExpanded ? '' : 'collapsed'} ${mobileOpen ? 'shifted' : ''}`}
                     style={{ transition: 'margin-left 300ms ease' }}
                   >
+                    <TopNav
+                      isExpanded={isExpanded}
+                      setIsExpanded={setIsExpanded}
+                      mobileOpen={mobileOpen}
+                      setMobileOpen={setMobileOpen}
+                    />
                     <div className="admin-content">
-                      {/* This MUST contain <Outlet /> in real layout file */}
+                      <Outlet />
                     </div>
                   </div>
                   <div

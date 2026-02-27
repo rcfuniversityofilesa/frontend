@@ -17,10 +17,12 @@ import { decodeToken } from '../../../utils/jwtUtils'
 
 
 export default function Login() {
-    const [showPassword, setShowConfirmPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { login } = useAuth()
+
+    const apiLink = 'https://backend-04sy.onrender.com'
 
     React.useEffect(() => {
         AOS.init({ duration: 3000 });
@@ -34,29 +36,30 @@ export default function Login() {
         onSubmit: async (values) => {
             setLoading(true)
             try {
-                const res = await axios.post('https://backend-04sy.onrender.com/api/admin/login', values)
+                const res = await axios.post(`${apiLink}/api/admin/login`, values, { withCredentials: true })
 
-                // Store token and admin data
                 localStorage.setItem('token', res.data.token)
-                localStorage.setItem("admin", JSON.stringify(res.data.admin));
+                // localStorage.setItem("admin", JSON.stringify(res.data.admin.role));
                 
-                // Update auth context
                 await login(values.email, values.password)
                 
-                // Decode token to get role
                 const decoded = decodeToken(res.data.token)
-                const userRole = decoded?.role
-
+                
+                const userRole = res.data.admin.role
+                  ? res.data.admin.role.toString().toLowerCase()
+                  : ''
                 toast.success(res.data.message)
 
-                // Redirect based on role
-                if (userRole === 'workersInTraining') {
+
+                setTimeout(() => {
+                  if (userRole === 'workersintraining') {
                     navigate('/admin/workersInTraining/overview')
-                } else if (userRole === 'media') {
-                    navigate('/admin/media/overview')
-                } else {
+                  } else if (userRole === 'media') {
                     navigate('/admin/profile')
-                }
+                  } else {
+                    navigate('/admin/unauthorized')
+                  }
+                }, 100)
             } catch (err) {
                 // console.log(err)
                 toast.error(`Error loggining in: ${err.response?.data?.message || err.message}`)
@@ -70,53 +73,76 @@ export default function Login() {
         })
     })
 
-    return (
-        <div className="authPage">
-            <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
-            <div className="authContainer" data-aos="fade-up">
-                <img src={logo} alt="logo" className="authLogo" />
-                <h2 className="authTitle">Admin Signin</h2>
+return (
+    <div className="authPage">
+        <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
+        
+        <div className="authContainer" data-aos="fade-up">
+            <img src={logo} alt="logo" className="authLogo" />
+            <h2 className="authTitle">Admin Signin</h2>
+            <p className="authSubTitle">Welcome back! Please enter your details.</p>
 
-                <form className="authForm" onSubmit={loading ? undefined : formik.handleSubmit}>
-                    <div>
-                        <div>
-                            <FaEnvelope className='inputIcon' />
-                            <input
-                                type="email"
-                                name='email'
-                                placeholder="Email"
-                                className="authInput"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
-                        </div>
-                        <p className='authErr'>{formik.touched.email && formik.errors.email ? <small>{formik.errors.email}</small> : ''} </p>
+            <form className="authForm" onSubmit={loading ? (e) => e.preventDefault() : formik.handleSubmit}>
+                
+                {/* Email Field */}
+                <div className="inputGroup">
+                    <div className="inputFieldWrapper">
+                        <FaEnvelope className='inputIcon' />
+                        <input
+                            type="email"
+                            name='email'
+                            placeholder="Email Address"
+                            className="authInput"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.email}
+                        />
                     </div>
-                    <div>
-                        <div>
-                            <FaLock className='inputIcon' />
-                            <input
-                                type={showPassword ? 'text' : "password"}
-                                name='password'
-                                placeholder="Password"
-                                className="authInput"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
-                            <span className='inputIcon' onClick={() => setShowConfirmPassword(!showPassword)}>
-                                {showPassword ? <FaEyeSlash /> : <FaEye />}
-                            </span>
-                        </div>
-                        <p className='authErr'>{formik.touched.password && formik.errors.password ? <small>{formik.errors.password}</small> : ''} </p>
+                    <div className="authErr">
+                        {formik.touched.email && formik.errors.email && <small>{formik.errors.email}</small>}
                     </div>
+                </div>
 
-                    {/* <p><Link className='links' to={'/auth/forget-password'}>Forget Password?</Link></p> */}
+                {/* Password Field */}
+                <div className="inputGroup">
+                    <div className="inputFieldWrapper">
+                        <FaLock className='inputIcon' />
+                        <input
+                            type={showPassword ? 'text' : "password"}
+                            name='password'
+                            placeholder="Password"
+                            className="authInput"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                        />
+                        <span className='inputIcon' style={{ cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
+                    <div className="authErr">
+                        {formik.touched.password && formik.errors.password && <small>{formik.errors.password}</small>}
+                    </div>
+                </div>
 
-                    <Button type="submit" text={loading ? (<span className="btnSpinner"><FaSpinner className="spin" /></span>) : "Login"} />
+                {/* Optional: Forget Password Link could go here */}
+                {/* <div style={{textAlign: 'right', marginTop: '-10px'}}>
+                    <Link className='links' style={{fontSize: '13px'}} to={'/auth/forget-password'}>Forgot Password?</Link>
+                </div> */}
 
-                    <p>I don't have an account <Link className='links' to={'/admin/auth/register'}>Register</Link></p>
-                </form>
-            </div>
+                <Button 
+                    type="submit" 
+                    text={loading ? <FaSpinner className="spin" /> : "Login"} 
+                />
+
+                <p className="footerText">
+                    I don't have an account? <Link className='links' to={'/admin/auth/register'}>Register</Link>
+                </p>
+            </form>
         </div>
-    );
+    </div>
+);
 };
+
+// huzuwyz@mailinator.com
+// Pa$$w0rd!

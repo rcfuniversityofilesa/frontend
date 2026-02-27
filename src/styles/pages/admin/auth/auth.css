@@ -9,128 +9,158 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    overflow-y: auto;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ===== Auth Container ===== */
 .authContainer {
     width: 100%;
-    max-width: 500px;
-    padding: 3rem 2.5rem;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.6s ease-out;
+    max-width: 550px;
+    padding: 40px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
 .authLogo {
-    width: 70px;
-    height: 70px;
-    margin-bottom: 10px;
+    width: 60px;
+    height: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px var(--primary-glow));
 }
 
 .authTitle {
     color: var(--nav-text-color);
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+}
+
+.authSubTitle {
+    color: var(--muted);
+    margin-bottom: 8px;
 }
 
 .authForm {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
-.authForm div {
-    background: var(--bg-linear);
-}
-
-.authForm div div {
+.inputGroup {
+    position: relative;
     display: flex;
-    justify-content: center;
-    border-radius: 8px;
-    text-align: center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.inputFieldWrapper {
+    width: 100%;
+    display: flex;
     align-items: center;
-    padding: 5px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    padding: 2px 12px;
 }
 
-.authForm div div .authInput {
-    width: 90%;
-    padding: 12px;
-    border: 1px solid var(--muted);
-    font-size: 15px;
-    font-family: sans-serif;
-    border-radius: 2px;
+.inputFieldWrapper:focus-within {
+    border-color: var(--primary-glow);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.authForm div .inputIcon {
-    width: 10%;
-    background-color: none;
-    font-size: 1.2rem;
+.inputIcon {
+    color: var(--nav-text-color);
+    font-size: 1.1rem;
+    margin-right: 10px;
+}
+
+.authInput {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    padding: 12px 0;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+.authInput::placeholder {
+    color: rgba(245, 245, 245, 0.712);
+    font-size: 14px;
+}
+
+.roleValues {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    width: 100%;
+    justify-content: center;
+    color: var(--nav-text-color);
+    font-size: 14px;
+}
+
+.roleValues label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.roleValues label:hover {
+    color: var(--primary-glow);
 }
 
 .authErr {
-    color: #dc2626 !important;
-    font-size: 13px;
-    font-style: italic;
-    font-family: "Nunito", sans-serif;
-    margin-bottom: 1px;
+    min-height: 20px;
+    margin-top: 4px;
 }
 
-.authForm div .inputIcon:hover {
-    transform: scale(1.2);
+.authErr small {
+    color: var(--error);
+    font-size: 11px;
+    font-weight: 500;
 }
 
 .links {
+    color: var(--primary-glow);
     text-decoration: none;
-    color: var(--nav-text-color);
-    font-weight: 700;
+    font-weight: 600;
+    transition: all 0.3s;
 }
 
 .links:hover {
-    text-decoration: underline;
-    color: var(--nav-text-hover);
+    filter: brightness(1.2);
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
 }
 
-.authForm p {
-    color: var(--nav-text-color);
-}
-.roleValues{
-    width: 470px;
-}
-
-.btnSpinner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.footerText {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 14px;
 }
 
 .spin {
-    animation: spin 1s linear infinite;
+    animation: rotate 1s linear infinite;
 }
 
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@media (max-width: 768px) {
-    .authContainer {
-        width: 85%;
-        padding: 25px;
-    }
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @media (max-width: 480px) {
     .authContainer {
-        width: 90%;
-        padding: 20px;
+        padding: 30px 20px;
+        border-radius: 0;
+        height: 100vh;
+        max-width: 100%;
     }
 }

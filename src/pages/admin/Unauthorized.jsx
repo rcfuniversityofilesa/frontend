@@ -1,17 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import Button from '../../components/common/Button'
 
-/**
- * Unauthorized Page
- * Shown when:
- * - User is authenticated but doesn't have required role
- * - User lacks permission for resource
- */
 export default function Unauthorized() {
-  const { logout } = useAuth()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout()
+    localStorage.removeItem('token');
+    localStorage.removeItem('admin');
+    navigate('/admin/auth/login');
   }
 
   return (
@@ -105,29 +102,7 @@ export default function Unauthorized() {
             Go to Home
           </Link>
 
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '10px 30px',
-              backgroundColor: '#f59e0b',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontWeight: '500',
-              cursor: 'pointer',
-              fontSize: '16px',
-            }}
-            onMouseEnter={(e) =>
-              (e.target.style.backgroundColor =
-                '#d97706')
-            }
-            onMouseLeave={(e) =>
-              (e.target.style.backgroundColor =
-                '#f59e0b')
-            }
-          >
-            Login Again
-          </button>
+          <Button onClick={handleLogout} text={"Login Again"} />
         </div>
       </div>
     </div>

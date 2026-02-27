@@ -13,6 +13,8 @@ export default function PostProgram() {
     const [preview, setPreview] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
 
+    const apiLink = 'https://backend-04sy.onrender.com'
+
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -55,7 +57,7 @@ export default function PostProgram() {
                 })
 
                 await axios.post(
-                    'https://backend-04sy.onrender.com/api/admin/post/program',
+                    `${apiLink}/api/admin/post/program`,
                     formData,
                     {
                         responseType: "blob",
