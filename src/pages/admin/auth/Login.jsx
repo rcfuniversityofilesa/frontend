@@ -22,7 +22,7 @@ export default function Login() {
     const navigate = useNavigate()
     const { login } = useAuth()
 
-    const apiLink = 'https://backend-04sy.onrender.com'
+    const apiLink = 'http://localhost:9000'
 
     React.useEffect(() => {
         AOS.init({ duration: 3000 });
@@ -36,7 +36,7 @@ export default function Login() {
         onSubmit: async (values) => {
             setLoading(true)
             try {
-                const res = await axios.post(`${apiLink}/api/admin/login`, values, { withCredentials: true })
+                const res = await axios.post(`https://backend-04sy.onrender.com/api/admin/login`, values, { withCredentials: true })
 
                 localStorage.setItem('token', res.data.token)
                 // localStorage.setItem("admin", JSON.stringify(res.data.admin.role));
