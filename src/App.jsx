@@ -13,6 +13,7 @@ import RoleGuard from './components/auth/RoleGuard'
 // Public Pages
 import Home from './pages/public/Home'
 import Aboutus from './pages/public/AboutUs'
+import Gallery from './pages/public/Gallery'
 import Contactus from './pages/public/ContactUs'
 import Programs from './pages/public/Programs'
 import News from './pages/public/News'
@@ -91,6 +92,7 @@ export default function App() {
         {/* PUBLIC ROUTES */}
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/events" element={<Programs />} />
         <Route path="/news" element={<News />} />
@@ -132,7 +134,7 @@ export default function App() {
           <Route path="*" element={<PageNotFound />} />
         </Route> */}
 
-        {/* MEDIA ADMIN */}
+        {/* WORKERS IN TRAINING ADMIN */}
         <Route
           path="/admin/workersInTraining"
           element={

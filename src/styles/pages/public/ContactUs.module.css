@@ -217,6 +217,13 @@
   letter-spacing: 0.05em;
 }
 
+.contactId{
+   color: var(--accent);
+  font-size: 0.75rem; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em; 
+}
+
 /* WhatsApp Action */
 .whatsapp { 
   background: #25D366;

@@ -16,10 +16,9 @@ import Academic from '../../assets/Academic.jpg'
 import Protocol from '../../assets/Protocolcoordinator.jpg'
 import sport from '../../assets/sport.png'
 import AMD from '../../assets/DSC_0033.jpg'
-import media from '../../assets/media.jpg'
 import MD from '../../assets/MusicDirector.jpg'
 import Deco from '../../assets/Decoration.jpg'
-import sani from '../../assets/asDSC_0026 (17).jpg'
+import dramo from '../../assets/dramo.jpg'
 import TC from '../../assets/TC.jpg'
 import USH from '../../assets/ushahe.jpg' 
 import brotherCord from '../../assets/asDSC_0026 (21)-2.jpg'
@@ -45,6 +44,13 @@ import awerf from '../../assets/awerf.jpg'
 import ife from '../../assets/ife2.jpeg'
 import asssanitation from '../../assets/asssanitation.jpeg'
 import sanitation from '../../assets/sanitation.jpeg'
+import toluwanimi from '../../assets/toluwanimi.jpg'
+import kehinde from '../../assets/kehinde.jpg'
+import vp from '../../assets/VP.jpg'
+import fisayo from '../../assets/fisayo.jpg'
+import papatest from '../../assets/papates.jpg'
+import gensec from '../../assets/gensec.jpg'
+
 
 export default function Aboutus() {
     useEffect(() => {
@@ -57,7 +63,7 @@ export default function Aboutus() {
   const excoData = [
     {
       id: 1,
-      img: media,
+      img: papatest,
       name: 'Fadare Testimony',
       post: 'President',  
       postTwo: '',  
@@ -65,7 +71,7 @@ export default function Aboutus() {
     },
     {
       id: 2,
-      img: media,
+      img: vp,
       name: 'OJO OLUWTOSIN',
       post: 'Vice president',  
       postTwo: `Worker's In Training Coordinator`,  
@@ -73,7 +79,7 @@ export default function Aboutus() {
     },
     {
       id: 3,
-      img: media,
+      img: gensec,
       name: 'ABIOYE MOSES',
       post: 'General Secretary',  
       postTwo: 'Alumni Relation Officer',  
@@ -145,7 +151,7 @@ export default function Aboutus() {
     },
     {
       id: 12,
-      img: AMD,
+      img: toluwanimi,
       name: 'TAIWO TOLUWANI',
       post: `Music Director`,  
       postTwo: '',  
@@ -217,7 +223,7 @@ export default function Aboutus() {
     },
     {
       id: 21,
-      img: follow2,
+      img: dramo,
       name: 'OJO SAMSON',
       post: `Drama Coordinator`,  
       postTwo: '',  
@@ -344,7 +350,7 @@ export default function Aboutus() {
     },
     {
       id: 36,
-      img: sport,
+      img: fisayo,
       name: 'FAFIOLA FISAYO',
       post: `Assistant Decorating Coordinator`,  
       postTwo: '',  
@@ -400,7 +406,7 @@ export default function Aboutus() {
     },
     {
       id: 43,
-      img: sport,
+      img: kehinde,
       name: 'ADEITAN KEHINDE',
       post: `Assistant Chief-Editor`,  
       postTwo: '',  

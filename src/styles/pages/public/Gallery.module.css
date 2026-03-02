@@ -1,0 +1,120 @@
+ .galleryPage {
+  margin-top: 100px;
+  padding: 20px 0;
+}
+
+.header {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.header h3 {
+  font-size: 1.8rem;
+  color: navy;
+  font-weight: 700;
+}
+
+.header p {
+  color: #222;
+  font-size: 1rem;
+  font-family: sans-serif;
+}
+
+
+.gallaryimagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  align-items: start;
+}
+
+.imagesCard {
+  position: relative; 
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.imagesCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.downloadBtn {
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  transform: translate(-50%, -50%) translateY(6px);
+  background: var(--button-bg);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+
+@media (min-width: 769px) {
+  .imagesCard:hover .downloadBtn {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+    pointer-events: auto;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .downloadBtn {
+    display: none;
+  }
+
+  .imagesCard img {
+    cursor: pointer;
+  }
+}
+.imagesCard img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .imagesCard img {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px;
+  }
+
+  .imagesCard img {
+    height: 250px;
+  }
+}
+
+.gallerySection{
+    margin-top: 30px;
+}
+
+.gallerypage { margin-top: 100px; padding: 20px 0; }

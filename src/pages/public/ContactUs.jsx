@@ -145,11 +145,11 @@ export default function Contactus() {
             <div className={styles.methodsBody}>
               <ul className={styles.methodsList}>
                 <li className={styles.method}>
-                  <a className={styles.methodLink} href="tel:+2347069017453">
+                  <a className={styles.methodLink} href="tel: +234 814 495 2627">
                     <span className={styles.icon}><FiPhone /></span>
                     <div>
-                      <span className={styles.methodLabel}>Call</span>
-                      <span className={styles.number}>+234 706 901 7453</span>
+                      <span className={styles.methodLabel}>Call - Pastor Testimony</span>
+                      <span className={styles.number}>+234 814 495 2627</span>
                     </div>
                   </a>
 
@@ -158,14 +158,14 @@ export default function Contactus() {
                       type="button"
                       className={styles.copyBtn}
                       aria-label="Copy phone number"
-                      onClick={() => copyNumber('+2347069017453')}
+                      onClick={() => copyNumber('+2348144952627')}
                     >
                       <FiCopy />
                     </button>
 
                     <a
                       className={styles.whatsapp}
-                      href="https://wa.me/2347069017453"
+                      href="https://wa.me/2348144952627"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="WhatsApp"
@@ -176,11 +176,11 @@ export default function Contactus() {
                 </li>
 
                 <li className={styles.method}>
-                  <a className={styles.methodLink} href="tel:+2349013500641">
+                  <a className={styles.methodLink} href="tel:+2348130206321">
                     <span className={styles.icon}><FiPhone /></span>
                     <div>
-                      <span className={styles.methodLabel}>Call</span>
-                      <span className={styles.number}>+2349013500641</span>
+                      <span className={styles.methodLabel}>Call - Bro Moses (General Secretary)</span>
+                      <span className={styles.number}>+234 813 020 6321</span>
                     </div>
                   </a>
 
@@ -189,10 +189,20 @@ export default function Contactus() {
                       type="button"
                       className={styles.copyBtn}
                       aria-label="Copy phone number"
-                      onClick={() => copyNumber('+2349013500641')}
+                      onClick={() => copyNumber('+2348130206321')}
                     >
                       <FiCopy />
                     </button>
+
+                    <a
+                      className={styles.whatsapp}
+                      href="https://wa.me/2348130206321"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WhatsApp"
+                    >
+                      <FaWhatsapp />
+                    </a>
                   </div>
                 </li>
 
@@ -200,7 +210,7 @@ export default function Contactus() {
                   <a className={styles.methodLink} href="tel:+2349017844632">
                     <span className={styles.icon}><FiPhone /></span>
                     <div>
-                      <span className={styles.methodLabel}>Call</span>
+                      <span className={styles.methodLabel}>Call - Papa Samuel (Brother's Cordinator)</span>
                       <span className={styles.number}>+2349017844632</span>
                     </div>
                   </a>
@@ -227,32 +237,36 @@ export default function Contactus() {
                   </div>
                 </li>
 
-
-                {/* <li className={styles.method}>
-                  <a className={styles.methodLink} href="tel:+2349013500641">
+                <li className={styles.method}>
+                  <a className={styles.methodLink} href="tel:+2349073078661">
                     <span className={styles.icon}><FiPhone /></span>
                     <div>
-                      <span className={styles.methodLabel}>Call</span>
-                      <span className={styles.number}>+234 901 350 0641</span>
+                      <span className={styles.methodLabel}>Call - Bro. Elisha (Media Director)</span>
+                      <span className={styles.number}>+2349073078661</span>
                     </div>
                   </a>
-                  <a className={styles.whatsapp} href="https://wa.me/2349013500641" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp +2349013500641">
-                    <FaWhatsapp />
-                  </a>
-                </li> */}
 
-                {/* <li className={styles.method}>
-                  <a className={styles.methodLink} href="tel:+2349017844632">
-                    <span className={styles.icon}><FiPhone /></span>
-                    <div>
-                      <span className={styles.methodLabel}>Call</span>
-                      <span className={styles.number}>+234 901 784 4632</span>
-                    </div>
-                  </a>
-                  <a className={styles.whatsapp} href="https://wa.me/2349017844632" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp +2349017844632">
-                    <FaWhatsapp />
-                  </a>
-                </li> */}
+                  <div className={styles.methodActions}>
+                    <button
+                      type="button"
+                      className={styles.copyBtn}
+                      aria-label="Copy phone number"
+                      onClick={() => copyNumber('+2349073078661')}
+                    >
+                      <FiCopy />
+                    </button>
+
+                    <a
+                      className={styles.whatsapp}
+                      href="https://wa.me/2349073078661"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WhatsApp"
+                    >
+                      <FaWhatsapp />
+                    </a>
+                  </div>
+                </li>
               </ul>
             </div>
           </aside>
