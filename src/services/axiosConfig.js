@@ -5,6 +5,7 @@ import { clearAuth } from '../utils/jwtUtils'
 // Create axios instance
 const axiosInstance = axios.create({
   baseURL: 'https://backend-04sy.onrender.com/api',
+  // baseURL: 'http://localhost:9000/api',
   timeout: 30000,
 })
 

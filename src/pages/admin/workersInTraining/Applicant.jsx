@@ -4,7 +4,7 @@ import * as yup from 'yup'
 import {  getApplicants,  hasApplicantTakenExam, moveToInterviewed, } from '../../../services/workersInTrainingService'
 import { FaSpinner, FaCheck, FaTimes, } from 'react-icons/fa'
 
-import '../../../styles/pages/admin/pages/Applicant.module.css'
+import '../../../styles/pages/admin/pages/Applicant.css'
 
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
@@ -21,6 +21,8 @@ export default function Applicant() {
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const apiLink = 'http://localhost:9000'
+
 
   useEffect(() => {
     fetchApplicants()
@@ -33,20 +35,20 @@ export default function Applicant() {
       setFormData(response.data?.data || [])
 
       // Check exam status for each applicant
-      const statusMap = {}
-      for (const applicant of response.data) {
-        try {
-          const examCheck =
-            await hasApplicantTakenExam(
-              applicant.email
-            )
-          statusMap[applicant._id] =
-            examCheck.data.hasTaken
-        } catch (err) {
-          statusMap[applicant._id] = false
-        }
-      }
-      setExamStatusMap(statusMap)
+      // const statusMap = {}
+      // for (const applicant of response.data) {
+      //   try {
+      //     const examCheck =
+      //       await hasApplicantTakenExam(
+      //         applicant.email
+      //       )
+      //     statusMap[applicant._id] =
+      //       examCheck.data.hasTaken
+      //   } catch (err) {
+      //     statusMap[applicant._id] = false
+      //   }
+      // }
+      // setExamStatusMap(statusMap)
 
 
     } catch (err) {

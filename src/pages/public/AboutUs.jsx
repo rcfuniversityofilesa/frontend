@@ -52,7 +52,7 @@ import papatest from '../../assets/papates.jpg'
 import gensec from '../../assets/gensec.jpg'
 
 
-export default function Aboutus() {
+export default function Aboutus() { 
     useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -480,7 +480,7 @@ export default function Aboutus() {
                 <h2>Our Vision</h2>
                 <div>
                     <h4>To make heaven</h4>
-                    <p>ur vision is to live a life that honors God daily. We pursue holiness in thoughts, words, and actions. We cultivate a deep relationship with Jesus through prayer and the Word. We commit to obedience and righteousness in every decision. We focus on eternal rewards, keeping heaven as our ultimate goal.</p>
+                    <p>Our vision is to live a life that honors God daily. We pursue holiness in thoughts, words, and actions. We cultivate a deep relationship with Jesus through prayer and the Word. We commit to obedience and righteousness in every decision. We focus on eternal rewards, keeping heaven as our ultimate goal.</p>
 
                     <h4>To take as many as possible with us</h4>
                     <p>We aim to reach unbelievers with the gospel of Christ. We engage others through teaching, fellowship, and outreach. We train members to share salvation boldly on campus and beyond. We build a welcoming environment that encourages commitment and growth. We trust God to use our efforts to lead many to eternal life.</p>

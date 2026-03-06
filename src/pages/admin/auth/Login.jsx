@@ -146,3 +146,9 @@ return (
 
 // huzuwyz@mailinator.com
 // Pa$$w0rd!
+
+// 08051507469 John
+
+// Link the contact page to the whatsapp of the media cordinator
+
+// AI agent (No code(drag and drop) and code)

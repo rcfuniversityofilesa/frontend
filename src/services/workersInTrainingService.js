@@ -5,21 +5,31 @@ import axiosInstance from './axiosConfig'
  * Handles all API calls for the Workers In Training system
  */
 
- const token = localStorage.getItem('token')
+const token = localStorage.getItem('token')
+
+export const applicantApply = (formData) => {
+  return axiosInstance.post('/user/apply/workforce', formData,
+    {
+      responseType: "blob",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
+}
 
 export const getApplicants = () => {
   return axiosInstance.get(
     '/user/apply/workforce/getdetails', {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+    headers: { Authorization: `Bearer ${token}` }
+  }
   )
 }
 
 export const getApplicantById = (id) => {
   return axiosInstance.get(
     `/user/apply/workforce/getdetails/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+    headers: { Authorization: `Bearer ${token}` }
+  }
   )
 }
 
@@ -60,6 +70,7 @@ export const moveToInterviewed = (
 export const hasApplicantTakenExam = (email) => {
   return axiosInstance.get(
     `/workersInTraining/exam/check/${email}`
+    // `/user/apply/workforce/getdetails/${id}`
   )
 }
 

@@ -5,9 +5,14 @@ import * as yup from 'yup'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import Button from '../../components/common/Button'
+import { applicantApply } from '../../services/workersInTrainingService'
+import { FaSpinner } from 'react-icons/fa'
 
 export default function ApplyAsWorker() {
   const [preview, setPreview] = React.useState(null)
+  const [loading, setLoading] = React.useState(false)
+
+  const apiURL = 'https://backend-04sy.onrender.com'
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +58,7 @@ export default function ApplyAsWorker() {
     }),
 
     onSubmit: async (values) => {
+      setLoading(true)
       try {
         const formData = new FormData();
 
@@ -64,16 +70,7 @@ export default function ApplyAsWorker() {
           }
         })
 
-        const res = await axios.post(
-          'https://backend-04sy.onrender.com/api/user/apply/workforce',
-          formData,
-          {
-            responseType: "blob",
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          }
-        )
+        const res = await applicantApply(formData)
 
         toast.success('Application Successfully')
 
@@ -90,6 +87,8 @@ export default function ApplyAsWorker() {
       } catch (err) {
         console.log(err);
         toast.error(`Error applying: ${err.response?.data?.message || err.message}`)
+      } finally{
+        setLoading(false)
       }
     }
 
@@ -108,7 +107,7 @@ export default function ApplyAsWorker() {
 
   return (
     <div className={styles.wrapper}>
-      <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
+      <Toaster position="bottom-center" toastOptions={{ duration: 4000 }} />
       <h2 className={styles.title}>Workers Form</h2>
 
       <form className={styles.formcont} onSubmit={formik.handleSubmit}>
@@ -348,7 +347,7 @@ export default function ApplyAsWorker() {
           </div>
 
         </div>
-        <Button type="submit" text='Submit' />
+        <Button type="submit" text={loading ? <FaSpinner className="spin" /> : 'Submit'} />
       </form>
     </div>
   )
