@@ -18,7 +18,8 @@ export default function Register() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [loader, setLoader] = useState(false)
 
-    const apiLink = 'https://backend-04sy.onrender.com'
+    // const apiLink = 'https://backend-04sy.onrender.com'
+    const apiLink = 'http://localhost:9000'
 
     React.useEffect(() => {
         AOS.init({ duration: 3000 });

@@ -105,34 +105,9 @@ export default function App() {
         <Route path="/exam/workers/results" element={<ExamResults />} />
 
         {/* AUTH ROUTES */}
-        <Route path="/admin/auth/register" element={<Register />} />
+        {/* <Route path="/admin/auth/register" element={<Register />} /> */}
         <Route path="/admin/auth/login" element={<Login />} />
         <Route path="/admin/unauthorized" element={<Unauthorized />} />
-
-        {/* WORKERS IN TRAINING ADMIN */}
-        {/* <Route
-          path="/admin/workersInTraining"
-          element={
-            <ProtectedRoute>
-              <RoleGuard requiredRole="workersInTraining">
-                <WorkersInTrainingLayout
-                  isExpanded={isExpanded}
-                  setIsExpanded={setIsExpanded}
-                  mobileOpen={mobileOpen}
-                  setMobileOpen={setMobileOpen}
-                />
-              </RoleGuard>
-            </ProtectedRoute>
-          }
-        >
-          <Route path="overview" element={<WITOverview />} />
-          <Route path="applicants" element={<WITApplicant />} />
-          <Route path="interviewed" element={<WITInterviewed />} />
-          <Route path="exam-settings" element={<WITExamSettings />} />
-          <Route path="exam-results" element={<WITExamResults />} />
-          <Route path="profile" element={<WITProfile />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Route> */}
 
         {/* WORKERS IN TRAINING ADMIN */}
         <Route

@@ -135,17 +135,20 @@ return (
                     text={loading ? <FaSpinner className="spin" /> : "Login"} 
                 />
 
-                <p className="footerText">
+                {/* <p className="footerText">
                     I don't have an account? <Link className='links' to={'/admin/auth/register'}>Register</Link>
-                </p>
+                </p> */}
             </form>
         </div>
     </div>
 );
 };
 
-// huzuwyz@mailinator.com
-// Pa$$w0rd!
+// Ajayi
+// Elisha
+// Oluwapelumi
+// ajayielisha6@gmail.com
+// 123456
 
 // 08051507469 John
 
